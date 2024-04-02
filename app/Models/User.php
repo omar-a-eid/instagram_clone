@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'userName',
+        'image',
+        'bio',
+        'gender',
+        'website'
     ];
 
     /**
@@ -42,4 +47,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    // Methods handling relation between followers table and users table
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id');
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+    }
+
+    public function followingCount()
+    {
+        return $this->following()->count();
+    }
+
+    public function followersCount()
+    {
+        return $this->followers()->count();
+    }
 }

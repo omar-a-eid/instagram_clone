@@ -1,0 +1,16 @@
+.circle-image {
+    width: 100px; /* Adjust the width and height as needed */
+    height: 100px; /* Adjust the width and height as needed */
+    border-radius: 50%; /* Make sure the border-radius is set to 50% for a perfect circle */
+}
+.btn {
+    width: 105px;
+}
+.tableContainer {
+    width: 80%;
+    margin-left: 15%;
+}
+.postsContainer {
+    width: 60%;
+    margin-left: 25%;
+}
