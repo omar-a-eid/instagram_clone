@@ -208,7 +208,7 @@
         </li>
 
 
-        @auth
+        {{-- @auth --}}
 
         <li>
             <a wire:navigate href="" class="flex items-center gap-5">
@@ -220,7 +220,7 @@
                     class=" text-lg  {{request()->routeIs('profile.home')?'font-bold':'font-medium'}} ">Profile</h4>
             </a>
         </li>
-        @endauth
+        {{-- @endauth --}}
 
     </ul>
 

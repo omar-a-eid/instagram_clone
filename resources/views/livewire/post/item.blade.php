@@ -6,7 +6,7 @@
         <x-avatar src="https://source.unsplash.com/500x500?face" class="h-9 w-9" />
         <div class="grid grid-cols-7 w-full gap-2">
             <div class="col-span-5">
-                <h5 class="font-semibold truncate text-sm">{{fake()->name}}</h5>
+                <h5 class="font-semibold truncate text-sm">{{$post->user->name}}</h5>
             </div>
             <div class="col-span-2 flex text-right justify-end">
                 <button class="text-gray-500 ml-auto">
@@ -45,17 +45,26 @@
 
             " class="swiper h-[500px] border bg-white">
                 <!-- Additional required wrapper -->
-                <div x-cloak class="swiper-wrapper">
+                 <ul x-cloak class="swiper-wrapper">
                     <!-- Slides -->
-                    <div class="swiper-slide">
-                        <x-video/>
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://cdn.pixabay.com/photo/2024/01/22/20/10/bark-8526227_1280.jpg" alt="" class="h-[500px] w-full block object-scale-down">
-                    </div>
-                </div>
+                    @foreach ($post->media as $file)
+                    <li class="swiper-slide">
+                        @switch($file->mime)
+                            @case('video')
+                            <x-video source="{{$file->url}}" />
+                            @break
+                        @case('image')
+                            <img src="{{$file->url}}" alt="" class="h-[500px] w-full block object-scale-down">
+                            @break
+                        @default
+                        @endswitch
+                    </li>
+                    @endforeach
+                </ul>
+
                 <!-- If we need pagination -->
                 <div class="swiper-pagination"></div>
+                @if ( count($post->media)>1)
 
                 {{-- prev --}}
                 <div class="swiper-button-prev absolute top-1/2 z-10 p-2">
@@ -74,11 +83,9 @@
                             stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                         </svg>
-
-
-
                     </div>
                 </div>
+                @endif
 
 
 
@@ -130,8 +137,9 @@
         <p class="font-bold text-sm">204,456 likes</p>
         {{--name and comment--}}
         <div class="flex text-sm gap-2 font-medium">
-            <p> <strong class="font-bold">{{fake()->name}}</strong>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum temporibus repellat suscipit natus ipsam consequuntur labore cum quidem veritatis aspernatur. Odio, necessitatibus similique? Quia necessitatibus totam asperiores, quas doloremque harum?</p>
+            <p> <strong class="font-bold">{{$post->user->name}}</strong>
+                {{$post->description}}
+            </p>
         </div>
         {{--view post modal--}}
         <button class="text-slate-500/80 text-sm font-medium">View All 234 comments</button>
