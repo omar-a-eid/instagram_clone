@@ -26,24 +26,25 @@ class UserProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store($id)
+    public function store(Request $request)
     {
-        // get user data  
-        $image = request() -> image; 
-        $bio = request() -> bio; 
-        $gender = request() -> gender; 
-        $website = request() -> website;
- 
-        // update user data in database 
-        $user = new User(); 
-        $user -> image = $image; 
-        $user -> bio = $bio; 
-        $user -> gender = $gender; 
-        $user -> website = $website;
-        $user -> save(); 
- 
-        // redirection to profile.show 
-        return to_route('profile.show', ['user' => $id]); 
+        $request->validate([
+            'image' => 'image|mimes:jpeg,png',
+            'bio' => 'string|max:255',
+            'gender' => 'string|in:male,female',
+            'website' => 'max:255',
+        ]);
+        
+        $user = new User();
+
+        $user->image = $request->image;
+        $user->bio = $request->bio;
+        $user->gender = $request->gender;
+        $user->website = $request->website;
+        
+        $user->save();
+        
+        return redirect()->route('profile.show', ['id' => $user->id]);
     }
 
     /**
@@ -69,41 +70,24 @@ class UserProfileController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {
-        // Validate incoming request data
-        $request->validate([
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming image is being uploaded
-            'bio' => 'string|max:255',
-            'gender' => 'string|in:male,female',
-            'website' => 'max:255',
-        ]);
-    
-        // Get user data
-        $userData = [
-            'bio' => $request->bio,
-            'gender' => $request->gender,
-            'website' => $request->website,
-        ];
-    
-        // Check if image is uploaded
-        if ($request->hasFile('image')) {
-            // Store the uploaded image
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->storeAs('public/images', $imageName);
-    
-            // Add image path to user data
-            $userData['image'] = 'images/' . $imageName;
-        }
-    
-        // Update existing user data in database
-        $user = User::find($id);
-        $user->update($userData);
-        dd($userData);
-        
-        // Redirect to profile.show route with user id
-        return redirect()->route('profile.show', ['user' => $id]);
-    }
+{
+    $request->validate([
+        'website' => 'nullable|url|max:255',
+        'bio' => 'nullable|string|max:255',
+        'gender' => 'nullable|string|in:Male,Female',
+    ]);
+
+    $user = User::findOrFail($id);
+
+    $user->website = $request->input('website');
+    $user->bio = $request->input('bio');
+    $user->gender = $request->input('gender');
+
+    $user->save();
+
+    return redirect()->route('profile.show', ['id' => $id]);
+}
+
     
 
     /**

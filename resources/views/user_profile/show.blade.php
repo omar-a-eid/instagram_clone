@@ -14,7 +14,7 @@
                     <p>{{$user->name}}</p>
                 </div>
                 <div class="col-8 ml-5 pl-5 ">
-                    <button type="button" class="btn btn-secondary">Edit Profile</button>
+                    <a href="{{ route('profileEdit.edit', $user->id) }}" class="btn btn-secondary">Edit Profile</a>
                 </div>
             </div>
             <div class="row mt-2 justify-content-between">
