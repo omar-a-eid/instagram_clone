@@ -31,6 +31,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('profileEdit.edit');
+Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profileUpdate.update');
+Route::post('/profile', [UserProfileController::class, 'store'])->name('profileStore.store');
 
 
 require __DIR__ . '/auth.php';
