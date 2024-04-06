@@ -36,16 +36,16 @@ class UserProfileController extends Controller
             'gender' => 'string|in:male,female',
             'website' => 'max:255',
         ]);
-        
+
         $user = new User();
 
         $user->image = $request->image;
         $user->bio = $request->bio;
         $user->gender = $request->gender;
         $user->website = $request->website;
-        
+
         $user->save();
-        
+
         return redirect()->route('profile.show', ['id' => $user->id]);
     }
 
@@ -55,11 +55,10 @@ class UserProfileController extends Controller
     public function show($id)
     {
         $singleUser = User::findorfail($id);
-        if ($singleUser->id != Auth::id()) { 
-            abort(403, "you are not authorized"); 
+        if ($singleUser->id != Auth::id()) {
+            abort(403, "you are not authorized");
         }
         return view('user_profile.show', ['user' => $singleUser]);
-        
     }
 
     /**
@@ -68,56 +67,56 @@ class UserProfileController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        if ($user->id != Auth::id()) { 
-            abort(403, "you are not authorized"); 
-        } 
+        if ($user->id != Auth::id()) {
+            abort(403, "you are not authorized");
+        }
         return view('user_profile.edit', ['user' => $user]);
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.
      */
 
 
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'website' => 'nullable|url|max:255',
-        'bio' => 'nullable|string|max:255',
-        'gender' => 'nullable|string|in:Male,Female',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-    ]);
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'website' => 'nullable|url|max:255',
+            'bio' => 'nullable|string|max:255',
+            'gender' => 'nullable|string|in:Male,Female',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
 
-    $user = User::findOrFail($id);
-    if ($user->id !== auth()->id()) { 
-        abort(403, "You are not authorized"); 
-    } 
-
-
-    $user->website = $request->input('website');
-    $user->bio = $request->input('bio');
-    $user->gender = $request->input('gender');
-
-    if ($request->hasFile('image') && $request->file('image')->isValid()) { 
-        if ($user->image) {
-            Storage::disk('public')->delete($user->image);
+        $user = User::findOrFail($id);
+        if ($user->id !== auth()->id()) {
+            abort(403, "You are not authorized");
         }
 
-        // Store new profile photo
-        $imagePath = $request->file('image')->store('users', ['disk' => 'public']); 
-        $user->image = $imagePath;
-    } 
 
-    // Save changes to the user
-    $user->save();
+        $user->website = $request->input('website');
+        $user->bio = $request->input('bio');
+        $user->gender = $request->input('gender');
 
-    return redirect()->route('profile.show', ['id' => $id]);
-}
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
 
-    
-    
+            // Store new profile photo
+            $imagePath = $request->file('image')->store('users', ['disk' => 'public']);
+            $user->image = $imagePath;
+        }
+
+        // Save changes to the user
+        $user->save();
+
+        return redirect()->route('profile.show', ['id' => $id]);
+    }
+
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -146,51 +145,57 @@ public function update(Request $request, $id)
     }
 
 
-    public function followers($id) 
-    { 
+    public function followers($id)
+    {
         // Find the user 
-        $user = User::findOrFail($id); 
- 
+        $user = User::findOrFail($id);
+
         // Fetch the followers 
-        $followers = $user->followers()->get(); 
- 
+        $followers = $user->followers()->get();
+
         // Pass followers data to the view 
-        return view('user_profile.followers', compact('followers', 'user')); 
+        return view('user_profile.show', compact('user', 'followers'));
+    }
+
+    public function followings($id)
+    {
+        // Find the user 
+        $user = User::findOrFail($id);
+
+        // Fetch the followers 
+        $followings = $user->following()->get();
+
+        // Pass followers data to the view 
+        return view('user_profile.show', compact('user', 'followings'));
     }
 
 
-    public function follow($followerId) 
-    { 
+    public function follow($followerId)
+    {
         // Find the current authenticated user 
-        $user = auth()->user(); 
- 
+        $user = auth()->user();
+
         // Find the user to follow 
-        $follower = User::findOrFail($followerId); 
- 
+        $follower = User::findOrFail($followerId);
+
         // Check if the user is not already following the follower 
-        if (!$user->isFollowing($follower)) { 
+        if (!$user->isFollowing($follower)) {
             // Attach the follower to the user's following list 
-            $user->following()->attach($follower); 
-        } 
- 
+            $user->following()->attach($follower);
+        }
+
         // Redirect back or to any other page 
-        return redirect()->back()->with('success', 'You have followed ' . $follower->name); 
+        return redirect()->back()->with('success', 'You have followed ' . $follower->name);
     }
 
-    public function unfollow($id) 
-    { 
-        $user = auth()->user(); 
-        $follower = User::findOrFail($id); 
- 
+    public function unfollow($id)
+    {
+        $user = auth()->user();
+        $follower = User::findOrFail($id);
+
         // Call the following relationship as a method 
-        $user->following()->detach($follower->id); 
- 
-        return redirect()->back()->with('status', 'You have unfollowed ' . $follower->name); 
+        $user->following()->detach($follower->id);
+
+        return redirect()->back()->with('status', 'You have unfollowed ' . $follower->name);
     }
-
-
-
-
-
-
 }

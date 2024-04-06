@@ -36,6 +36,7 @@ Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('pro
 Route::post('/profile', [UserProfileController::class, 'store'])->name('profileStore.store');
 
 Route::get('/profile/{id}/followers', [UserProfileController::class, 'followers'])->name('profileFollowers.followers');
+Route::get('/profile/{id}/followings', [UserProfileController::class, 'followings'])->name('profileFollowers.followings');
 Route::delete('/unfollow/{id}', [UserProfileController::class, 'unfollow'])->name('unfollow');
 Route::post('/profile/{followerId}/follow', [UserProfileController::class, 'follow'])->name('follow');
 

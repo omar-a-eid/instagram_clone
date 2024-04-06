@@ -17,7 +17,7 @@
                              <a href="{{ route('profileFollowers.followers', $user -> id) }}" class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal" data-bs-target="#followersModal">
                                 {{ $user->followersCount() }} Followers
                             </a>
-                            <a href="{{ route('profileFollowers.followers', $user -> id) }}" class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal" data-bs-target="#followersModal">
+                            <a href="{{ route('profileFollowers.followings', $user -> id) }}" class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal" data-bs-target="#followingsModal">
                                 {{ $user->followingCount() }} Followings
                             </a>
                     </div>
@@ -57,8 +57,47 @@
                             </div>
                         </div>
                     </div>
-
                             {{-- #endOfModal --}}
+
+
+                        {{-- followings modal --}}
+
+                          <!-- Modal -->
+                    <div class="modal fade" id="followingsModal" tabindex="-1" aria-labelledby="followingsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="followingsModalLabel">Followings</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul>
+                                        @foreach($user->following as $followedUser)
+                                        <li>
+                                            {{ $followedUser->name }}
+                                            @if(auth()->user()->isFollowing($followedUser))
+                                            
+                                            <form action="{{ route('unfollow', $followedUser->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Unfollow</button>
+                                            </form>
+                                            @endif
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                            {{-- #endOfModal --}}
+
+
+
+
                             <p class="nick_name">{{$user -> name}}</p>
                             <p class="desc">
                                 {{$user->bio}} 
