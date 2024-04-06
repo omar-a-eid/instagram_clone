@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +29,20 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+//User Route 
+
+//register routes
+Route::get('/register', [UserController::class, 'register'])->name('users.register');
+Route::post('/handleRegister', [UserController::class,'handleRegister'])->name('users.handleRegister');
+
+//login routes
+Route::get('/login', [UserController::class, 'login'])->name('users.login');
+Route::post('/handleLogin', [UserController::class,'handleLogin'])->name('users.handleLogin');
+
+
+
+
 
 require __DIR__.'/auth.php';
