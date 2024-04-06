@@ -142,7 +142,7 @@
             </p>
         </div>
         {{--view post modal--}}
-        <button class="text-slate-500/80 text-sm font-medium">View All 234 comments</button>
+        <button onclick="Livewire.dispatch('openModal',{component:'post.view.modal',arguments:{'post':{{$post->id}}}})" class="text-slate-500/90 text-sm font-medium"> View All {{$post->comments->count()}} comments</button>
         {{--addComment--}}
          <form wire:key='{{time()}}' @submit.prevent="$wire.addComment()" x-data="{body:@entangle('body')}"
             class="grid grid-cols-12 items-center w-full">
