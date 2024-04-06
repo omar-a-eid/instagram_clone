@@ -5,8 +5,12 @@
             <div class="profile_info">
                 <div class="cart">
                     <div class="img">
-                    <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Photo" class="circle-image rounded-circle">
-                </div>
+                            @if(!$user->image)
+                                <img src="{{ asset('assets/images/avatar.jpeg') }}" alt="Avatar" class="circle-image rounded-circle">
+                            @else
+                                <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Photo" class="circle-image rounded-circle">
+                            @endif
+                        </div>
                     <div class="info">
                         <p class="name">
                             {{$user -> name}}
@@ -22,31 +26,33 @@
                             </a>
                     </div>
 
-                    <!-- Modal -->
+                    <!-- Followers Modal -->
                     <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 400px; width: 100%;">
+                            <div class="modal-content" style="height: 400px;">
+                            <div class="modal-header">
                                     <h5 class="modal-title" id="followersModalLabel">Followers</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
+                            </div>
                                 <div class="modal-body">
                                     <ul>
                                         @foreach($user->followers as $follower)
                                         <li>
-                                            {{ $follower->name }}
-                                            @if(auth()->user()->isFollowing($follower))
-                                            <form action="{{ route('unfollow', $follower->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Unfollow</button>
-                                            </form>
-                                            @else
-                                            <form action="{{ route('follow', $follower->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-primary">Follow</button>
-                                            </form>
-                                            @endif
+                                            <div class="follower-container">
+                                                <span>{{ $follower->name }}</span>
+                                                @if(auth()->user()->isFollowing($follower))
+                                                <form action="{{ route('unfollow', $follower->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Unfollow</button>
+                                                </form>
+                                                @else
+                                                <form action="{{ route('follow', $follower->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary">Follow</button>
+                                                </form>
+                                                @endif
+                                            </div>
                                         </li>
                                         @endforeach
                                     </ul>
@@ -57,30 +63,28 @@
                             </div>
                         </div>
                     </div>
-                            {{-- #endOfModal --}}
+                    {{-- #endOfModal --}}
 
 
-                        {{-- followings modal --}}
+                    {{-- Followings modal --}}
 
-                          <!-- Modal -->
                     <div class="modal fade" id="followingsModal" tabindex="-1" aria-labelledby="followingsModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 400px; width: 100%;">
+                            <div class="modal-content" style="height: 400px;">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="followingsModalLabel">Followings</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <ul>
+                                <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                                    <ul class="list-group">
                                         @foreach($user->following as $followedUser)
-                                        <li>
-                                            {{ $followedUser->name }}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center following-container">
+                                            <span>{{ $followedUser->name }}</span>
                                             @if(auth()->user()->isFollowing($followedUser))
-                                            
                                             <form action="{{ route('unfollow', $followedUser->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Unfollow</button>
+                                                <button type="submit" class="btn btn-danger btn-sm">Unfollow</button>
                                             </form>
                                             @endif
                                         </li>
@@ -93,10 +97,8 @@
                             </div>
                         </div>
                     </div>
-                            {{-- #endOfModal --}}
 
-
-
+                    {{-- #endOfModal --}}
 
                             <p class="nick_name">{{$user -> name}}</p>
                             <p class="desc">
@@ -104,7 +106,8 @@
                                 <br>
                             </p>
                             <p class="desc">
-                                <a href="{{ $user->website }}" target="_blank" style="text-decoration: none;">{{ $user->website }}</a>
+                            <a href="{{ $user->website }}" target="_blank" style="text-decoration: none; color: blue;">{{ $user->website }}</a>
+                                <br>
                                 <br>
                             </p>
                         </div>

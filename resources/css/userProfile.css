@@ -1768,31 +1768,66 @@
     height: 40px;
   }
   
-  .circle-image {
-    width: 70% !important;
+  /* Profile and Edit Profile */
+  
+    .circle-image {
+    width: 100px !important;
     height: 100px; 
     border-radius: 50%;
+    object-fit: cover;
   }
   
-  .highlighted-image{
+    .highlighted-image{
     width: 100% !important;
     height: 80px; 
     border-radius: 50%;
   }
   
   
-  .btn {
+    .btn {
     width: 105px;
     margin-left: 20px;
   }
   
-  .tableContainer {
+    .tableContainer {
     width: 80%;
     margin-left: 15%;
   }
   
-  .postsContainer {
+    .postsContainer {
     width: 60%;
     margin-left: 25%;
   }
+
+    /* Followers List, Following List */
+
+    .follower-container,
+    .following-container {
+      display: flex;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      align-items: flex-end;
+  }
   
+    .follower-container span,
+    .following-container span {
+      flex-grow: 1;
+  }
+  
+    .follower-container button,
+    .following-container button {
+      margin-left: 10px;
+  }
+
+  /* Modal Header */
+
+  .modal-header .modal-title {
+    display: flex;
+    justify-content: center;
+    margin-left: auto; 
+}
+
+
+
