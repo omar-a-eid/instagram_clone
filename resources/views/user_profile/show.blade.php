@@ -1,105 +1,156 @@
 <x-app-layout>
     <x-slot name="header">
     </x-slot>
-    <div class="container mt-5 d-flex align-items-center justify-content-center">
-        <div>
-            <div class="col-12">
-                <img src="{{ asset('assets/images/newSunset.jpg') }}" alt="Example Image" class="circle-image rounded-circle">
-            </div>
-        </div>
-
-        <div class="ml-5">
-            <div class="row ">
-                <div class="col-3">
-                    <p>{{$user->name}}</p>
+        <div class="profile_container">
+            <div class="profile_info">
+                <div class="cart">
+                    <div class="img">
+                    <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Photo" class="circle-image rounded-circle">
                 </div>
-                <div class="col-8 ml-5 pl-5 ">
-                    <a href="{{ route('profileEdit.edit', $user->id) }}" class="btn btn-secondary">Edit Profile</a>
-                </div>
-            </div>
-            <div class="row mt-2 justify-content-between">
-                <div class="col-3 mt-2">
-                    <p>36 Posts</p>
-                </div>
-                <div class="col-3">
-                    <button type="button" class="btn btn-link text-decoration-none text-dark w-50">{{$user->followersCount()}} Followers</button>
-                </div>
-                <div class="col-3">
-                    <button type="button" class="btn btn-link text-decoration-none text-dark w-50">{{$user->followingCount()}} Following </button>
-                </div>
-            </div>
-            <div class="row  mt-2">
-                <div class="col-12">   
-                      <p> {{$user->bio}}</p>       
-                </div>
-            </div>
-        </div>
-    </div>
-   
-{{-- posts tags saved --}}
-<div class="mt-5"> 
-    <div class="tableContainer" >
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <ul class="nav nav-tabs justify-content-center">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#reels" data-toggle="tab" onclick="toggleTab('reels')">Reels</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#posts" data-toggle="tab" onclick="toggleTab('posts')">Posts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#tags" data-toggle="tab" onclick="toggleTab('tags')">Tags</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="reels">
-                        <!-- Reels content goes here -->
-        
+                    <div class="info">
+                        <p class="name">
+                            {{$user -> name}}
+                            <a href="{{ route('profileEdit.edit', $user->id) }}" class="btn btn-secondary edit_profile">Edit Profile</a>
+                        </p>
+                        <div class="general_info">
+                            <p><span>1 </span>posts</p>
+                             <a href="{{ route('profileFollowers.followers', $user -> id) }}" class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal" data-bs-target="#followersModal">
+                                {{ $user->followersCount() }} Followers
+                            </a>
+                            <a href="{{ route('profileFollowers.followers', $user -> id) }}" class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal" data-bs-target="#followersModal">
+                                {{ $user->followingCount() }} Followings
+                            </a>
                     </div>
-                    <div class="tab-pane fade" id="posts">
-                        <!-- Posts content goes here -->
-                
-                    </div>
-                    <div class="tab-pane fade" id="tags">
-                        <!-- Tags content goes here -->
-                     
-                    </div>
-                </div>
-            </div>
-        </div>
-  
-    </div>
 
-
-    {{-- Posts --}}
-    <div class="container mt-4 postsContainer">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="d-flex flex-wrap">
-                    <div class="col-4 mb-3">
-                        <div class="card mb-4">
-                            <img src="{{ asset('assets/images/newSunset.jpg') }}" class="card-img-top" alt="Post 1 Image">
+                    <!-- Modal -->
+                    <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="followersModalLabel">Followers</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul>
+                                        @foreach($user->followers as $follower)
+                                        <li>
+                                            {{ $follower->name }}
+                                            @if(auth()->user()->isFollowing($follower))
+                                            <form action="{{ route('unfollow', $follower->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Unfollow</button>
+                                            </form>
+                                            @else
+                                            <form action="{{ route('follow', $follower->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary">Follow</button>
+                                            </form>
+                                            @endif
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="card mb-4">
-                            <img src="{{ asset('assets/images/newSunset.jpg') }}" class="card-img-top" alt="Post 2 Image">
+
+                            {{-- #endOfModal --}}
+                            <p class="nick_name">{{$user -> name}}</p>
+                            <p class="desc">
+                                {{$user->bio}} 
+                                <br>
+                            </p>
+                            <p class="desc">
+                                <a href="{{ $user->website }}" target="_blank" style="text-decoration: none;">{{ $user->website }}</a>
+                                <br>
+                            </p>
+                        </div>
+                </div>
+            </div>
+            <div class="highlights">
+                <div class="highlight">
+                    <div class="img">
+                        <img src="{{ asset('assets/images/newSunset.jpg') }}" alt="Example Image" class="highlighted-image rounded-circle">
+                    </div>
+                    <p>conseils</p>
+                </div>
+                <div class="highlight highlight_add">
+                    <div class="img">
+                        <img src="{{ asset('assets/images/plus.png') }}" class="highlighted-image" alt="">
+                    </div>
+                    <p>New</p>
+                </div>
+            </div>
+            <hr>
+            <div class="posts_profile">
+                <ul class="nav-pills w-100 d-flex justify-content-center" id="pills-tab" role="tablist">
+                    <li class="nav-item mx-2" role="presentation">
+                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                            <img src="{{ asset('assets/images/feed.png') }}" alt="posts">
+                            POSTS
+                        </button>
+                    </li>
+                    <li class="nav-item mx-2" role="presentation">
+                      <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                        <img src="{{ asset('assets/images/save-instagram.png') }}" alt="saved posts">
+                        SAVED
+                      </button>
+                    </li>
+                    <li class="nav-item mx-2" role="presentation">
+                      <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                        <img src="{{ asset('assets/images/tagged.png') }}" alt="tagged posts">
+                        TAGGED
+                      </button>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                        <div id="posts_sec" class="post">
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/Jqh3rHv/img1.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/2ZxBFVp/img2.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/5vQt677/img3.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/j8L7FPY/account10.jpg" alt="">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="card mb-4">
-                            <img src="{{ asset('assets/images/newSunset.jpg') }}" class="card-img-top" alt="Post 3 Image">
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                        <div id="saved_sec" class="post">
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/6WvdZS9/account12.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg" alt="">
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+                        <div id="tagged" class="post">
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/Zhc5hHp/account4.jpg" alt="">
+                            </div>
+                            <div class="item">
+                                <img class="img-fluid item_img" src="https://i.ibb.co/SPTNbJL/account5.jpg" alt="">
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-            </div>
+            </div>     
         </div>
-    </div>
-</div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </x-app-layout>

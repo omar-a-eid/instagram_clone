@@ -35,5 +35,11 @@ Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('
 Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profileUpdate.update');
 Route::post('/profile', [UserProfileController::class, 'store'])->name('profileStore.store');
 
+Route::get('/profile/{id}/followers', [UserProfileController::class, 'followers'])->name('profileFollowers.followers');
+Route::delete('/unfollow/{id}', [UserProfileController::class, 'unfollow'])->name('unfollow');
+Route::post('/profile/{followerId}/follow', [UserProfileController::class, 'follow'])->name('follow');
+
+
+
 
 require __DIR__ . '/auth.php';
