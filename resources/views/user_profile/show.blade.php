@@ -25,50 +25,60 @@
                                 {{ $user->followingCount() }} Followings
                             </a>
                     </div>
+                    <p class="nick_name">{{$user -> name}}</p>
+                    <p class="desc">
+                        {{$user->bio}} 
+                        <br>
+                        </p>
+                            <p class="desc">
+                                <a href="{{ $user->website }}" target="_blank" style="text-decoration: none; color: blue;">{{ $user->website }}</a>
+                                <br>
+                                <br>
+                            </p>
 
                     <!-- Followers Modal -->
                     <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 400px; width: 100%;">
                             <div class="modal-content" style="height: 400px;">
-                            <div class="modal-header">
+                                <div class="modal-header">
                                     <h5 class="modal-title" id="followersModalLabel">Followers</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
+                                </div>
                                 <div class="modal-body">
-                                    <ul>
+                                <form id="searchForm" action="{{ route('followers.search', $user->id) }}" method="GET">
+                                <div class="search-container">
+                                    <input type="text" id="query" name="query" class="form-control search-input" placeholder="Search">
+                                </div>
+                                </form>
+                                    <ul id="followersList">
                                         @foreach($user->followers as $follower)
-                                        <li>
-                                            <div class="follower-container">
-                                                <span>{{ $follower->name }}</span>
+                                        <li class="follower-container">
+                                            <span>{{ $follower->name }}</span>
                                                 @if(auth()->user()->isFollowing($follower))
-                                                <form action="{{ route('unfollow', $follower->id) }}" method="POST">
+                                                    <form action="{{ route('unfollow', $follower->id) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Unfollow</button>
-                                                </form>
+                                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                                    </form>
                                                 @else
-                                                <form action="{{ route('follow', $follower->id) }}" method="POST">
+                                                    <form action="{{ route('follow', $follower->id) }}" method="POST">
                                                     @csrf
                                                     <button type="submit" class="btn btn-primary">Follow</button>
-                                                </form>
+                                                    </form>
                                                 @endif
-                                            </div>
                                         </li>
                                         @endforeach
                                     </ul>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
+                                <p id="noResultsMessage" class="text-center" style="display: none;">No results found.</p>
                             </div>
                         </div>
-                    </div>
+                    </div>   
+
                     {{-- #endOfModal --}}
 
 
-                    {{-- Followings modal --}}
-
-                    <div class="modal fade" id="followingsModal" tabindex="-1" aria-labelledby="followingsModalLabel" aria-hidden="true">
+           {{-- Followings modal --}}
+           <div class="modal fade" id="followingsModal" tabindex="-1" aria-labelledby="followingsModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 400px; width: 100%;">
                             <div class="modal-content" style="height: 400px;">
                                 <div class="modal-header">
@@ -99,17 +109,8 @@
                     </div>
 
                     {{-- #endOfModal --}}
-
-                            <p class="nick_name">{{$user -> name}}</p>
-                            <p class="desc">
-                                {{$user->bio}} 
-                                <br>
-                            </p>
-                            <p class="desc">
-                            <a href="{{ $user->website }}" target="_blank" style="text-decoration: none; color: blue;">{{ $user->website }}</a>
-                                <br>
-                                <br>
-                            </p>
+                            
+                        
                         </div>
                 </div>
             </div>
@@ -195,4 +196,38 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+
+        function filterFollowers() {
+            var query = document.getElementById('query').value.toLowerCase();
+            var followers = document.querySelectorAll('#followersList .follower-container');
+            var noResultsMessage = document.getElementById('noResultsMessage');
+
+            var foundResults = false;
+
+            followers.forEach(function(follower) {
+                var name = follower.querySelector('span').textContent.toLowerCase();
+                if (name.includes(query)) {
+                    follower.style.display = 'flex';
+                    foundResults = true;
+                } else {
+                    follower.style.display = 'none';
+                }
+            });
+
+            if (!foundResults) {
+                noResultsMessage.style.display = 'flex';
+            } else {
+                noResultsMessage.style.display = 'none';
+            }
+        }
+
+        document.getElementById('query').addEventListener('input', function() {
+            filterFollowers(); 
+        });
+
+
+</script>
+
+
 </x-app-layout>

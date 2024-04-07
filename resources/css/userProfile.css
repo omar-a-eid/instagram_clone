@@ -1829,5 +1829,34 @@
     margin-left: auto; 
 }
 
+/* CSS styling for the search input */
+.search-container {
+  position: relative;
+  display: inline-block;
+}
+
+.search-input {
+  width: 350px; /* Adjust width as needed */
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-button {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+
+
+
 
 
