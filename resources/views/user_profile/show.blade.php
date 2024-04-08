@@ -45,11 +45,14 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                <form id="searchForm" action="{{ route('followers.search', $user->id) }}" method="GET">
+
+                                    {{-- removed action from form --}}
+                                <form id="searchFormFollowers"  method="GET">
                                 <div class="search-container">
-                                    <input type="text" id="query" name="query" class="form-control search-input" placeholder="Search">
+                                    <input type="text" id="queryFollowers" name="queryFollowers" class="form-control search-input" placeholder="Search">
                                 </div>
                                 </form>
+
                                     <ul id="followersList">
                                         @foreach($user->followers as $follower)
                                         <li class="follower-container">
@@ -74,6 +77,7 @@
                         </div>
                     </div>   
 
+                </div>
                     {{-- #endOfModal --}}
 
 
@@ -86,9 +90,17 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
-                                    <ul class="list-group">
+
+                                     {{-- removed action from form --}}
+                                    <form id="searchFormFollowings"  method="GET">
+                                        <div class="search-container">
+                                            <input type="text" id="queryFollowings" name="queryFollowings" class="form-control search-input" placeholder="Search">
+                                        </div>
+                                        </form>
+
+                                    <ul class="followingsList">
                                         @foreach($user->following as $followedUser)
-                                        <li class="list-group-item d-flex justify-content-between align-items-center following-container">
+                                        <li class="following-container ">
                                             <span>{{ $followedUser->name }}</span>
                                             @if(auth()->user()->isFollowing($followedUser))
                                             <form action="{{ route('unfollow', $followedUser->id) }}" method="POST">
@@ -100,6 +112,7 @@
                                         </li>
                                         @endforeach
                                     </ul>
+                                    <p id="noResultsMessage" class="text-center" style="display: none;">No results found.</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -111,7 +124,7 @@
                     {{-- #endOfModal --}}
                             
                         
-                        </div>
+                 
                 </div>
             </div>
             <div class="highlights">
@@ -196,38 +209,74 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+
+
         <script>
-
-        function filterFollowers() {
-            var query = document.getElementById('query').value.toLowerCase();
-            var followers = document.querySelectorAll('#followersList .follower-container');
-            var noResultsMessage = document.getElementById('noResultsMessage');
-
-            var foundResults = false;
-
-            followers.forEach(function(follower) {
-                var name = follower.querySelector('span').textContent.toLowerCase();
-                if (name.includes(query)) {
-                    follower.style.display = 'flex';
-                    foundResults = true;
+            function filterFollowers() {
+                var query = document.getElementById('queryFollowers').value.toLowerCase();
+                var followers = document.querySelectorAll('#followersList .follower-container');
+                var noResultsMessage = document.getElementById('noResultsMessageFollowers');
+                var foundResults = false;
+        
+                followers.forEach(function(follower) {
+                    var name = follower.querySelector('span').textContent.toLowerCase();
+                    if (startsWith(name, query)) {
+                        follower.style.display = 'flex';
+                        foundResults = true;
+                    } else {
+                        follower.style.display = 'none';
+                    }
+                });
+        
+                if (!foundResults) {
+                    noResultsMessage.style.display = 'flex';
                 } else {
-                    follower.style.display = 'none';
+                    noResultsMessage.style.display = 'none';
                 }
-            });
-
-            if (!foundResults) {
-                noResultsMessage.style.display = 'flex';
-            } else {
-                noResultsMessage.style.display = 'none';
             }
-        }
-
-        document.getElementById('query').addEventListener('input', function() {
-            filterFollowers(); 
-        });
-
-
-</script>
-
-
+        
+            function filterFollowings() {
+                var query = document.getElementById('queryFollowings').value.toLowerCase();
+                var followings = document.querySelectorAll('#followingsList .following-container');
+                var noResultsMessage = document.getElementById('noResultsMessageFollowings');
+                var foundResults = false;
+        
+                followings.forEach(function(following) {
+                    var name = following.querySelector('span').textContent.toLowerCase();
+                    if (startsWith(name, query)) {
+                        following.style.display = 'flex';
+                        foundResults = true;
+                    } else {
+                        following.style.display = 'none';
+                    }
+                });
+        
+                if (!foundResults) {
+                    noResultsMessage.style.display = 'flex';
+                } else {
+                    noResultsMessage.style.display = 'none';
+                }
+            }
+        
+            document.getElementById('searchFormFollowers').addEventListener('submit', function(event) {
+                event.preventDefault();
+            });
+        
+            document.getElementById('searchFormFollowings').addEventListener('submit', function(event) {
+                event.preventDefault();
+            });
+        
+            document.getElementById('queryFollowers').addEventListener('input', function() {
+                filterFollowers();
+            });
+        
+            document.getElementById('queryFollowings').addEventListener('input', function() {
+                filterFollowings();
+            });
+        
+            function startsWith(string, query) {
+                return string.indexOf(query) === 0;
+            }
+        </script>
 </x-app-layout>

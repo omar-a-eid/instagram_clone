@@ -199,16 +199,20 @@ class UserProfileController extends Controller
         return redirect()->back()->with('status', 'You have unfollowed ' . $follower->name);
     }
 
-    public function search(Request $request, $id)
-    {
-        $query = $request->input('query');
-        $user = User::findOrFail($id);
-        $filteredFollowers = $user->followers()->where('name', 'like', '%' . $query . '%')->get();
-        return response()->json(['followers' => $filteredFollowers]);
-    }
-    
+    // public function searchFollowers(Request $request, $id)
+    // {
+    //     $query = $request->input('query');
+    //     $user = User::findOrFail($id);
+    //     $filteredFollowers = $user->followers()->where('name', 'like', '%' . $query . '%')->get();
+    //     return response()->json(['followers' => $filteredFollowers]);
+    // }
 
-
-
+    // public function searchFollowings(Request $request, $id)
+    // {
+    //     $query = $request->input('query');
+    //     $user = User::findOrFail($id);
+    //     $filteredFollowers = $user->followings()->where('name', 'like', '%' . $query . '%')->get();
+    //     return response()->json(['followings' => $filteredFollowers]);
+    // }
 
 }
