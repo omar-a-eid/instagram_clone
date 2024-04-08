@@ -44,5 +44,4 @@ Route::post('/handleLogin', [UserController::class,'handleLogin'])->name('users.
 
 
 
-
 require __DIR__.'/auth.php';
