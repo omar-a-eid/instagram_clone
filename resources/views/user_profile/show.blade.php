@@ -4,6 +4,8 @@
         <div class="profile_container">
             <div class="profile_info">
                 <div class="cart">
+
+                    {{-- user Image --}}
                     <div class="img">
                             @if(!$user->image)
                                 <img src="{{ asset('assets/images/avatar.jpeg') }}" alt="Avatar" class="circle-image rounded-circle">
@@ -11,6 +13,8 @@
                                 <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Photo" class="circle-image rounded-circle">
                             @endif
                         </div>
+
+                        {{-- user account details --}}
                     <div class="info">
                         <p class="name">
                             {{$user -> name}}
@@ -25,6 +29,7 @@
                                 {{ $user->followingCount() }} Followings
                             </a>
                     </div>
+                    
                     <p class="nick_name">{{$user -> name}}</p>
                     <p class="desc">
                         {{$user->bio}} 
@@ -45,8 +50,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-
-                                    {{-- removed action from form --}}
+             
                                 <form id="searchFormFollowers"  method="GET">
                                 <div class="search-container">
                                     <input type="text" id="queryFollowers" name="queryFollowers" class="form-control search-input" placeholder="Search">
@@ -72,7 +76,7 @@
                                         </li>
                                         @endforeach
                                     </ul>
-                                <p id="noResultsMessage" class="text-center" style="display: none;">No results found.</p>
+                                <p id="noResultsMessageFollowers" class="text-center" style="display: none;">No results found.</p>
                             </div>
                         </div>
                     </div>   
@@ -91,7 +95,6 @@
                                 </div>
                                 <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
 
-                                     {{-- removed action from form --}}
                                     <form id="searchFormFollowings"  method="GET">
                                         <div class="search-container">
                                             <input type="text" id="queryFollowings" name="queryFollowings" class="form-control search-input" placeholder="Search">
@@ -112,7 +115,7 @@
                                         </li>
                                         @endforeach
                                     </ul>
-                                    <p id="noResultsMessage" class="text-center" style="display: none;">No results found.</p>
+                                    <p id="noResultsMessageFollowings" class="text-center" style="display: none;">No results found.</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -120,13 +123,12 @@
                             </div>
                         </div>
                     </div>
-
                     {{-- #endOfModal --}}
-                            
-                        
-                 
+             
                 </div>
             </div>
+
+            {{-- Stories region --}}
             <div class="highlights">
                 <div class="highlight">
                     <div class="img">
@@ -142,6 +144,8 @@
                 </div>
             </div>
             <hr>
+
+            {{-- Posts - Saved - Reels Region  --}}
             <div class="posts_profile">
                 <ul class="nav-pills w-100 d-flex justify-content-center" id="pills-tab" role="tablist">
                     <li class="nav-item mx-2" role="presentation">
@@ -213,6 +217,8 @@
 
 
     <script>
+
+   /* to filter the followers according to the search input */
     function filterFollowers() {
         var query = document.getElementById('queryFollowers').value.toLowerCase();
         var followers = document.querySelectorAll('#followersList .follower-container');
@@ -222,7 +228,7 @@
         followers.forEach(function(follower) {
             var name = follower.querySelector('span').textContent.toLowerCase();
             if (name.startsWith(query)) {
-                follower.style.display = 'block';
+                follower.style.display = 'flex';
                 foundResults = true;
             } else {
                 follower.style.display = 'none';
@@ -230,12 +236,13 @@
         });
 
         if (!foundResults) {
-            noResultsMessageFollowers.style.display = 'block';
+            noResultsMessageFollowers.style.display = 'flex';
         } else {
             noResultsMessageFollowers.style.display = 'none';
         }
     }
 
+    /* to filter the followings according to the search input */
     function filterFollowings() {
         var query = document.getElementById('queryFollowings').value.toLowerCase();
         var followings = document.querySelectorAll('.followingsList .following-container');
@@ -245,7 +252,7 @@
         followings.forEach(function(following) {
             var name = following.querySelector('span').textContent.toLowerCase();
             if (name.startsWith(query)) {
-                following.style.display = 'block';
+                following.style.display = 'flex';
                 foundResults = true;
             } else {
                 following.style.display = 'none';
@@ -253,7 +260,7 @@
         });
 
         if (!foundResults) {
-            noResultsMessageFollowings.style.display = 'block';
+            noResultsMessageFollowings.style.display = 'flex';
         } else {
             noResultsMessageFollowings.style.display = 'none';
         }

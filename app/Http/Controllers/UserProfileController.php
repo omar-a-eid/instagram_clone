@@ -73,12 +73,9 @@ class UserProfileController extends Controller
         return view('user_profile.edit', ['user' => $user]);
     }
 
-
-
     /**
      * Update the specified resource in storage.
      */
-
 
     public function update(Request $request, $id)
     {
@@ -109,7 +106,6 @@ class UserProfileController extends Controller
             $user->image = $imagePath;
         }
 
-        // Save changes to the user
         $user->save();
 
         return redirect()->route('profile.show', ['id' => $id]);
@@ -179,7 +175,9 @@ class UserProfileController extends Controller
         $follower = User::findOrFail($followerId);
 
         // Check if the user is not already following the follower 
+
         if (!$user->isFollowing($follower)) {
+
             // Attach the follower to the user's following list 
             $user->following()->attach($follower);
         }

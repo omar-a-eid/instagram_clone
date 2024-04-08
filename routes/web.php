@@ -39,14 +39,5 @@ Route::get('/profile/{id}/followers', [UserProfileController::class, 'followers'
 Route::get('/profile/{id}/followings', [UserProfileController::class, 'followings'])->name('profileFollowers.followings');
 Route::delete('/unfollow/{id}', [UserProfileController::class, 'unfollow'])->name('unfollow');
 Route::post('/profile/{followerId}/follow', [UserProfileController::class, 'follow'])->name('follow');
-// Route::get('/profile/{id}/followers/search', [UserProfileController::class, 'search'])->name('followers.search');
-// Route::get('/profile/{id}/followings/search', [UserProfileController::class, 'search'])->name('followings.search');
-
-
-
-
-
-
-
 
 require __DIR__ . '/auth.php';
