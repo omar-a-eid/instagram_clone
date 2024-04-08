@@ -7,8 +7,39 @@
         </div>
     </div>
 
+    <!-- Modal For Removing And Updating Photo -->
+    <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="photoModalLabel">Change Profile Photo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column align-items-center px-0" style="height: 15vh;">
+                    <form id="updatePhotoForm" action="{{ route('profileEdit.edit', $user->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label for="profilePhotoInput" class="text-primary cursor-pointer">Upload Photo</label>
+                            <input id="profilePhotoInput" name="image" type="file" accept="image/*" style="display: none;" onchange="document.getElementById('updatePhotoForm').submit();">
+                        </div>
+                    </form>
+                        <hr class="w-100 mb-3">
+                    @if($user -> image)
+                    <form id="removePhotoForm" action="{{ route('editPhoto.destroy', $user->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="remove_photo" value="true">
+                        <label for="removePhotoCheckbox" class="text-danger cursor-pointer" onclick="document.getElementById('removePhotoForm').submit();">Remove Profile Photo</label>
+                    </form>
+                    @endif                                 
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="form container mt-4">
+
+    <div class="form container mt-4 mr-5">
         <form action="{{ route('profileUpdate.update', $user->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -18,7 +49,7 @@
                             @if($user->image)
                                 <img id="profileImage" width="200px" src="{{ Storage::disk('public')->url($user->image) }}" alt="Profile Photo" class="highlighted-image rounded-full">
                             @else
-                                <img id="profileImage" src="{{ asset('assets/images/newSunset.jpg') }}" alt="Profile Photo" class="highlighted-image rounded-full">
+                                <img id="profileImage" src="{{ asset('assets/images/avatar.jpeg') }}" alt="Profile Photo" class="highlighted-image rounded-full">
                             @endif
                         </div>
                     </div>
@@ -28,6 +59,7 @@
                         <input id="profilePhotoInput" name="image" type="file" accept="image/*" style="display: none;" onchange="displaySelectedPhoto()">
                     </div>
             </div>
+
             
 
             <div class="mb-6">
@@ -88,7 +120,14 @@
             });
             myModal.show();
         }
-        
+
+        // Show Remove And Update Photo Modal
+        $(document).ready(function () {
+            $('#profileImage').on('click', function () {
+                $('#photoModal').modal('show');
+            });
+        });
+            
         function saveGender() {
             var selectedGender = document.querySelector('input[name="gender"]:checked').value;
             document.getElementById('genderButton').value = selectedGender;
@@ -107,5 +146,9 @@
                 reader.readAsDataURL(fileInput.files[0]);
             }
         }
+
+        function redirectToEditProfile() {
+        window.location.href = "{{ route('profileEdit.edit', $user->id) }}";
+    }
     </script>
 </x-app-layout>

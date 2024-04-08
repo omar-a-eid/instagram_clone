@@ -136,7 +136,35 @@ class UserProfileController extends Controller
      
          return redirect()->route('profile.show', ['id' => $id]);
      }
-     
+
+     public function updateImage(Request $request, $id){
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif'
+        ]);
+
+        $user = User::findOrFail($id);
+        if ($user->id !== auth()->id()) {
+            abort(403, "You are not authorized");
+        }
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
+    
+            // Store new profile photo
+            $imagePath = $request->file('image')->store('users', 'public');
+            $user->image = $imagePath;
+   
+    
+        // Save changes to the user
+        $user->save();
+    
+        return redirect()->route('profileEdit.edit', ['id' => $id]);
+
+     }
+    }
      
      
 
@@ -148,8 +176,22 @@ class UserProfileController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        if ($user->id !== auth()->id()) {
+            abort(403, "You are not authorized");
+        }
+    
+        if ($user->image) {
+            Storage::disk('public')->delete($user->image);
+            $user->image = null;
+            $user->save();
+        }
+    
+        // Redirect back to the edit profile page or any other appropriate page
+        return redirect()->back()->with('success', 'Profile photo removed successfully.');
     }
+
 
     // Get the number of people the user is following
     public function getFollowingCount($id)

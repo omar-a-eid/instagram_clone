@@ -39,6 +39,9 @@ Route::get('/profile/{id}/followers', [UserProfileController::class, 'followers'
 Route::get('/profile/{id}/followings', [UserProfileController::class, 'followings'])->name('profileFollowers.followings');
 Route::delete('/unfollow/{id}', [UserProfileController::class, 'unfollow'])->name('unfollow');
 Route::post('/profile/{followerId}/follow', [UserProfileController::class, 'follow'])->name('follow');
+Route::delete('/profile/{id}/photo', [UserProfileController::class, 'destroy'])->name('editPhoto.destroy');
+Route::put('/profile/{id}/edit', [UserProfileController::class, 'updateImage'])->name('profileEdit.edit');
+
 // Route::get('/profile/{id}/followers/search', [UserProfileController::class, 'search'])->name('followers.search');
 // Route::get('/profile/{id}/followings/search', [UserProfileController::class, 'search'])->name('followings.search');
 
