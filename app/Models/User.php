@@ -48,7 +48,7 @@ class User extends Authenticatable
     ];
 
 
-    // Methods handling relation between followers table and users table
+    /* Methods handling relation between followers table and users table*/
 
     public function followers()
     {
@@ -60,6 +60,7 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
     }
 
+    /* Methods returning the number of followers and followings */
     public function followingCount()
     {
         return $this->following()->count();
@@ -70,9 +71,8 @@ class User extends Authenticatable
         return $this->followers()->count();
     }
 
-    /**
-     * Check if the authenticated user is following the given user.
-     */
+
+    /*  Check if the authenticated user is following the given user.*/
     public function isFollowing($user)
     {
         return $this->following()->where('id', $user->id)->exists();

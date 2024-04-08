@@ -36,38 +36,38 @@ class UserProfileController extends Controller
             'gender' => 'nullable|string|in:Male,Female',
             'website' => 'nullable|max:255',
         ]);
-    
+
         $user = User::findOrFail($id);
         if ($user->id !== auth()->id()) {
             abort(403, "You are not authorized");
         }
-    
+
         // Update the user's profile data
         $user->bio = $request->input('bio');
         $user->gender = $request->input('gender');
         $user->website = $request->input('website');
-    
+
         // Check if a new image file has been uploaded
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             // Delete the old profile image if it exists
             if ($user->image) {
                 Storage::disk('public')->delete($user->image);
             }
-            
+
             // Store the new profile image
             $imagePath = $request->file('image')->store('users', ['disk' => 'public']);
             $user->image = $imagePath;
         }
-    
+
         // Save the updated user profile
         $user->save();
-    
+
         // Redirect to the user's profile show page
         return redirect()->route('profile.show', ['id' => $user->id]);
     }
-    
-    
-    
+
+
+
 
     /**
      * Display the specified resource.
@@ -92,8 +92,6 @@ class UserProfileController extends Controller
         }
         return view('user_profile.edit', ['user' => $user]);
     }
-
-
 
     /**
      * Update the specified resource in storage.
@@ -246,7 +244,9 @@ class UserProfileController extends Controller
         $follower = User::findOrFail($followerId);
 
         // Check if the user is not already following the follower 
+
         if (!$user->isFollowing($follower)) {
+
             // Attach the follower to the user's following list 
             $user->following()->attach($follower);
         }
