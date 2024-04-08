@@ -28,26 +28,46 @@ class UserProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $request->validate([
-            'image' => 'image',
-            'bio' => 'string|max:255',
-            'gender' => 'string|in:male,female',
-            'website' => 'max:255',
+            'image' => 'image|mimes:jpeg,png,jpg,gif',
+            'bio' => 'nullable|string|max:255',
+            'gender' => 'nullable|string|in:Male,Female',
+            'website' => 'nullable|max:255',
         ]);
 
-        $user = new User();
+        $user = User::findOrFail($id);
+        if ($user->id !== auth()->id()) {
+            abort(403, "You are not authorized");
+        }
 
-        $user->image = $request->image;
-        $user->bio = $request->bio;
-        $user->gender = $request->gender;
-        $user->website = $request->website;
+        // Update the user's profile data
+        $user->bio = $request->input('bio');
+        $user->gender = $request->input('gender');
+        $user->website = $request->input('website');
 
+        // Check if a new image file has been uploaded
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Delete the old profile image if it exists
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
+
+            // Store the new profile image
+            $imagePath = $request->file('image')->store('users', ['disk' => 'public']);
+            $user->image = $imagePath;
+        }
+
+        // Save the updated user profile
         $user->save();
 
+        // Redirect to the user's profile show page
         return redirect()->route('profile.show', ['id' => $user->id]);
     }
+
+
+
 
     /**
      * Display the specified resource.
@@ -76,6 +96,7 @@ class UserProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
 
     public function update(Request $request, $id)
     {
@@ -106,6 +127,7 @@ class UserProfileController extends Controller
             $user->image = $imagePath;
         }
 
+        // Save changes to the user
         $user->save();
 
         return redirect()->route('profile.show', ['id' => $id]);
