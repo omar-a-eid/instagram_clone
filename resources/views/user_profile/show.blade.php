@@ -212,71 +212,68 @@
         
 
 
-        <script>
-            function filterFollowers() {
-                var query = document.getElementById('queryFollowers').value.toLowerCase();
-                var followers = document.querySelectorAll('#followersList .follower-container');
-                var noResultsMessage = document.getElementById('noResultsMessageFollowers');
-                var foundResults = false;
-        
-                followers.forEach(function(follower) {
-                    var name = follower.querySelector('span').textContent.toLowerCase();
-                    if (startsWith(name, query)) {
-                        follower.style.display = 'flex';
-                        foundResults = true;
-                    } else {
-                        follower.style.display = 'none';
-                    }
-                });
-        
-                if (!foundResults) {
-                    noResultsMessage.style.display = 'flex';
-                } else {
-                    noResultsMessage.style.display = 'none';
-                }
+    <script>
+    function filterFollowers() {
+        var query = document.getElementById('queryFollowers').value.toLowerCase();
+        var followers = document.querySelectorAll('#followersList .follower-container');
+        var noResultsMessageFollowers = document.getElementById('noResultsMessageFollowers');
+        var foundResults = false;
+
+        followers.forEach(function(follower) {
+            var name = follower.querySelector('span').textContent.toLowerCase();
+            if (name.startsWith(query)) {
+                follower.style.display = 'block';
+                foundResults = true;
+            } else {
+                follower.style.display = 'none';
             }
-        
-            function filterFollowings() {
-                var query = document.getElementById('queryFollowings').value.toLowerCase();
-                var followings = document.querySelectorAll('#followingsList .following-container');
-                var noResultsMessage = document.getElementById('noResultsMessageFollowings');
-                var foundResults = false;
-        
-                followings.forEach(function(following) {
-                    var name = following.querySelector('span').textContent.toLowerCase();
-                    if (startsWith(name, query)) {
-                        following.style.display = 'flex';
-                        foundResults = true;
-                    } else {
-                        following.style.display = 'none';
-                    }
-                });
-        
-                if (!foundResults) {
-                    noResultsMessage.style.display = 'flex';
-                } else {
-                    noResultsMessage.style.display = 'none';
-                }
+        });
+
+        if (!foundResults) {
+            noResultsMessageFollowers.style.display = 'block';
+        } else {
+            noResultsMessageFollowers.style.display = 'none';
+        }
+    }
+
+    function filterFollowings() {
+        var query = document.getElementById('queryFollowings').value.toLowerCase();
+        var followings = document.querySelectorAll('.followingsList .following-container');
+        var noResultsMessageFollowings = document.getElementById('noResultsMessageFollowings');
+        var foundResults = false;
+
+        followings.forEach(function(following) {
+            var name = following.querySelector('span').textContent.toLowerCase();
+            if (name.startsWith(query)) {
+                following.style.display = 'block';
+                foundResults = true;
+            } else {
+                following.style.display = 'none';
             }
-        
-            document.getElementById('searchFormFollowers').addEventListener('submit', function(event) {
-                event.preventDefault();
-            });
-        
-            document.getElementById('searchFormFollowings').addEventListener('submit', function(event) {
-                event.preventDefault();
-            });
-        
-            document.getElementById('queryFollowers').addEventListener('input', function() {
-                filterFollowers();
-            });
-        
-            document.getElementById('queryFollowings').addEventListener('input', function() {
-                filterFollowings();
-            });
-        
-            function startsWith(string, query) {
-                return string.indexOf(query) === 0;
-            }
-        </script>
+        });
+
+        if (!foundResults) {
+            noResultsMessageFollowings.style.display = 'block';
+        } else {
+            noResultsMessageFollowings.style.display = 'none';
+        }
+    }
+
+    document.getElementById('searchFormFollowers').addEventListener('submit', function(event) {
+        event.preventDefault();
+    });
+
+    document.getElementById('searchFormFollowings').addEventListener('submit', function(event) {
+        event.preventDefault();
+    });
+
+    document.getElementById('queryFollowers').addEventListener('input', function() {
+        filterFollowers();
+    });
+
+    document.getElementById('queryFollowings').addEventListener('input', function() {
+        filterFollowings();
+    });
+    </script>
+
 </x-app-layout>
