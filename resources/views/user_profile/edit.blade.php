@@ -24,8 +24,8 @@
                             <input id="profilePhotoInput" name="image" type="file" accept="image/*" style="display: none;" onchange="document.getElementById('updatePhotoForm').submit();">
                         </div>
                     </form>
-                        <hr class="w-100 mb-3">
                     @if($user -> image)
+                    <hr class="w-100 mb-3">
                     <form id="removePhotoForm" action="{{ route('editPhoto.destroy', $user->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
