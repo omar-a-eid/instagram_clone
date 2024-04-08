@@ -2,36 +2,33 @@
     <x-slot name="header">
     </x-slot>
     <div>
-            <div class="max-w-7xl mt-4 mx-5 py-6 px-5 sm:px-6 lg:px-8">
-                <h2 class="font-semibold text-gray-800 leading-tight">
-                    Edit Profile
-                </h2>
-            </div>
-        </div>
-          <div class="container mt-8">
-        <div class="flex justify-between">
-            <div class="flex items-center">
-                <div class="w-20 h-20 mr-4">
-                    @if($user->image)
-                        <img id="profileImage" width="200px" src="{{ Storage::disk('public')->url($user->image) }}" alt="Profile Photo" class="highlighted-image rounded-full">
-                    @else
-                        <img id="profileImage" src="{{ asset('assets/images/newSunset.jpg') }}" alt="Profile Photo" class="highlighted-image rounded-full">
-                    @endif
-                </div>
-                <div>
-                    <h1 class="text-2xl font-semibold">{{ $user->name }}</h1>
-                    <label for="profilePhotoInput" class="text-blue-500 cursor-pointer">Change Profile Photo</label>
-                    <input id="profilePhotoInput" name="image" type="file" accept="image/*" class="hidden">
-                </div>
-            </div>
+        <div class="container-fluid mt-5 ml-5 mb-5">
+             <h1 class="font-semibold text-gray-800" style="font-size: 2rem;">Edit Profile</h1>
         </div>
     </div>
 
 
-    <div class="container mt-8">
+    <div class="form container mt-4">
         <form action="{{ route('profileUpdate.update', $user->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+            <div class="flex mb-5 items-center">
+                    <div class="flex items-center">
+                        <div class="w-20 h-20 mr-5">
+                            @if($user->image)
+                                <img id="profileImage" width="200px" src="{{ Storage::disk('public')->url($user->image) }}" alt="Profile Photo" class="highlighted-image rounded-full">
+                            @else
+                                <img id="profileImage" src="{{ asset('assets/images/newSunset.jpg') }}" alt="Profile Photo" class="highlighted-image rounded-full">
+                            @endif
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-semibold ml-5">{{ $user->name }}</h1>
+                        <label for="profilePhotoInput" class="text-blue-500 cursor-pointer  ml-5">Change Profile Photo</label>
+                        <input id="profilePhotoInput" name="image" type="file" accept="image/*" style="display: none;" onchange="displaySelectedPhoto()">
+                    </div>
+            </div>
+            
 
             <div class="mb-6">
                 <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
@@ -48,10 +45,6 @@
                 <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
                 <input type="text" name="gender" id="genderButton" readonly onclick="showGenderModal()" placeholder="Select Gender" value="{{ $user->gender }}" class="mt-1 p-2 rounded-md border border-gray-300 w-full">
                 <p class="text-sm text-gray-500 mt-1">This won’t be part of your public profile.</p>
-            </div>
-
-            <div class="form-group">
-                <input type="file" class="form-control" id="image" name="image">
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -100,6 +93,19 @@
             var selectedGender = document.querySelector('input[name="gender"]:checked').value;
             document.getElementById('genderButton').value = selectedGender;
             $('#genderModal').modal('hide');
+        }
+
+        function displaySelectedPhoto() {
+            const fileInput = document.getElementById('profilePhotoInput');
+            const profileImage = document.getElementById('profileImage');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    profileImage.src = e.target.result;
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
         }
     </script>
 </x-app-layout>

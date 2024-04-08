@@ -28,26 +28,46 @@ class UserProfileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $request->validate([
-            'image' => 'image',
-            'bio' => 'string|max:255',
-            'gender' => 'string|in:male,female',
-            'website' => 'max:255',
+            'image' => 'image|mimes:jpeg,png,jpg,gif',
+            'bio' => 'nullable|string|max:255',
+            'gender' => 'nullable|string|in:Male,Female',
+            'website' => 'nullable|max:255',
         ]);
-
-        $user = new User();
-
-        $user->image = $request->image;
-        $user->bio = $request->bio;
-        $user->gender = $request->gender;
-        $user->website = $request->website;
-
+    
+        $user = User::findOrFail($id);
+        if ($user->id !== auth()->id()) {
+            abort(403, "You are not authorized");
+        }
+    
+        // Update the user's profile data
+        $user->bio = $request->input('bio');
+        $user->gender = $request->input('gender');
+        $user->website = $request->input('website');
+    
+        // Check if a new image file has been uploaded
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Delete the old profile image if it exists
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
+            
+            // Store the new profile image
+            $imagePath = $request->file('image')->store('users', ['disk' => 'public']);
+            $user->image = $imagePath;
+        }
+    
+        // Save the updated user profile
         $user->save();
-
+    
+        // Redirect to the user's profile show page
         return redirect()->route('profile.show', ['id' => $user->id]);
     }
+    
+    
+    
 
     /**
      * Display the specified resource.
@@ -80,40 +100,45 @@ class UserProfileController extends Controller
      */
 
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'website' => 'nullable|url|max:255',
-            'bio' => 'nullable|string|max:255',
-            'gender' => 'nullable|string|in:Male,Female',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
-        ]);
-
-        $user = User::findOrFail($id);
-        if ($user->id !== auth()->id()) {
-            abort(403, "You are not authorized");
-        }
-
-
-        $user->website = $request->input('website');
-        $user->bio = $request->input('bio');
-        $user->gender = $request->input('gender');
-
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            if ($user->image) {
-                Storage::disk('public')->delete($user->image);
-            }
-
-            // Store new profile photo
-            $imagePath = $request->file('image')->store('users', ['disk' => 'public']);
-            $user->image = $imagePath;
-        }
-
-        // Save changes to the user
-        $user->save();
-
-        return redirect()->route('profile.show', ['id' => $id]);
-    }
+     public function update(Request $request, $id)
+     {
+         $request->validate([
+             'website' => 'nullable|url|max:255',
+             'bio' => 'nullable|string|max:255',
+             'gender' => 'nullable|string|in:Male,Female',
+             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif'
+         ]);
+     
+         $user = User::findOrFail($id);
+         if ($user->id !== auth()->id()) {
+             abort(403, "You are not authorized");
+         }
+     
+         // Update other fields
+         $user->website = $request->input('website');
+         $user->bio = $request->input('bio');
+         $user->gender = $request->input('gender');
+     
+         // Handle image upload
+         if ($request->hasFile('image') && $request->file('image')->isValid()) {
+             // Delete previous image if exists
+             if ($user->image) {
+                 Storage::disk('public')->delete($user->image);
+             }
+     
+             // Store new profile photo
+             $imagePath = $request->file('image')->store('users', 'public');
+             $user->image = $imagePath;
+         }
+     
+         // Save changes to the user
+         $user->save();
+     
+         return redirect()->route('profile.show', ['id' => $id]);
+     }
+     
+     
+     
 
 
 
