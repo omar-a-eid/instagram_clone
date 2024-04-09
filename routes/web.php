@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserProfileController;
 
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Home;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', Home::class)->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

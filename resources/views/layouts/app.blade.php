@@ -19,6 +19,34 @@
 
 
 
+        <style>
+            [x-cloak]{
+                display: none !important;
+            }
+        </style>
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </head>
+    <body class="font-sans antialiased">
+
+        <div class="drawer lg:drawer-open">
+            <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content items-center justify-center">
+              <!-- Page content here -->
+              {{-- <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label> --}}
+                {{$slot}}
+            </div>
+            <div class="drawer-side overflow-visible z-10">
+              <label for="my-drawer-2" class="drawer-overlay"></label>
+
+              @include('layouts.sidebar')
+
+            </div>
+          </div>
+
+              @livewire('wire-elements-modal')
+
+    </body>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/userProfile.css'])
 </head>

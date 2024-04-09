@@ -6,10 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Overtrue\LaravelLike\Traits\Liker;
+use Overtrue\LaravelFavorite\Traits\Favoriter;
+use Overtrue\LaravelFollow\Traits\Follower;
+use Overtrue\LaravelFollow\Traits\Followable;
+
+
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use liker;
+    use Favoriter;
+    use Follower;
+    use Followable;
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +57,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    function posts():HasMany{
+        return $this->hasMany(Post::class);
+    }
+    function comments() : HasMany {
+        return $this->hasMany(Comment::class);
+    }
 
 
     /* Methods handling relation between followers table and users table*/
