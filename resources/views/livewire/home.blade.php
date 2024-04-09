@@ -58,7 +58,7 @@
                 <ul class="flex overflow-x-auto scrollbar-hide item-center gap-2">
                     @for ($i =0 ; $i<15 ; $i++)
                     <li class="flex flex-col justify-center w-20 gap-1 p-2">
-                        <x-avatar story src="https://source.unsplash.com/500x500?face-{{$i}}" class="h-14 w-14"/>
+                        <x-avatar wire:ignore story src="https://source.unsplash.com/500x500?face-{{$i}}" class="h-14 w-14"/>
                         <p class="text-xs font-medium truncate">{{fake()->name}}</p>
                     </li>
                     @endfor
@@ -89,22 +89,30 @@
             <section class="mt-4">
                 <h4 class="font-bold text-gray-700/95">Suggestions for you</h4>
                 <ul class="my-2 space-y-3">
+                    @foreach ($suggestedUsers as $key=> $user)
 
-                    @for ($i=0; $i <5; $i++)
+                  
+                   
                      <li class="flex items-center gap-3">
-                        <x-avatar  src="https://source.unsplash.com/500x500?face-{{$i}}" class="w-12 h-12" />
+                        <x-avatar wire:ignore src="https://source.unsplash.com/500x500?face-{{$key}}" class="w-12 h-12" />
 
                         <div class="grid grid-cols-7 w-full gap-2">
                             <div class="col-span-5">
-                                <h5 class="font-bold truncate text-sm">{{fake()->name}}</h5>
-                                <p class="text-xs truncate">Followed by {{fake()->name}}</p>
+                                <h5 class="font-bold truncate text-sm">{{$user->name}}</h5>
+                                <p class="text-xs truncate" wire:ignore >Followed by {{fake()->name}}</p>
                             </div>
                             <div class="col-span-2 flex text-right justify-end">
-                                <button class="font-bold text-blue-500 ml-auto text-sm">Follow</button>
+                                @if(auth()->user()->isFollowing($user))
+                                <button wire:click="toggleFollow({{$user->id}})" class="font-bold text-blue-500 ml-auto text-sm">following</button>
+
+                                @else
+                                <button wire:click="toggleFollow({{$user->id}})"  class="font-bold text-blue-500 ml-auto text-sm">Follow</button>
+
+                                @endif
                             </div>
                         </div>
                     </li>
-                    @endfor
+                    @endforeach
                 </ul>
             </section>
 
