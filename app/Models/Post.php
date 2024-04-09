@@ -6,11 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Overtrue\LaravelLike\Traits\Likeable;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
+
 
 
 class Post extends Model
 {
     use HasFactory;
+    use Likeable;
+    use Favoriteable;
     protected $guarded=[];
     protected $casts=[
         'hide_like_view'=>'boolean',
