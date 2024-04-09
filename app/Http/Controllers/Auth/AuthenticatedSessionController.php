@@ -15,7 +15,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+   /* public function create(): View
     {
         return view('auth.login');
     }
@@ -23,7 +23,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    /*public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
 
@@ -31,6 +31,29 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
+*/
+
+public function create(){
+        return view('Auth.login');
+    }
+
+    public function store(Request $request){
+
+        $request->validate([
+            'email' =>'required|email|max:100',
+            'password' => 'required|string|min:6|max:40',
+        ]);
+    
+      $is_login = auth::attempt(['email'=>$request->email, 'password'=>$request->password]);
+
+      if($is_login){
+          return redirect(route('register'));
+      }else{
+        return back()->withInput()->withErrors(['email','password' => 'Invalid email or password']);
+      }
+       
+    }
+
 
     /**
      * Destroy an authenticated session.

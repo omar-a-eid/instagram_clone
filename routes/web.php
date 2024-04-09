@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 
 
 //User Route 
-
+/*
 //register routes
 Route::get('/register', [UserController::class, 'register'])->name('users.register');
 Route::post('/handleRegister', [UserController::class,'handleRegister'])->name('users.handleRegister');
@@ -40,7 +40,7 @@ Route::post('/handleRegister', [UserController::class,'handleRegister'])->name('
 //login routes
 Route::get('/login', [UserController::class, 'login'])->name('users.login');
 Route::post('/handleLogin', [UserController::class,'handleLogin'])->name('users.handleLogin');
-
+*/
 
 
 

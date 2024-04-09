@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => env('MAIL_MAILER', 'build laravel 10 user authentication using mailgun'),
 
     /*
     |--------------------------------------------------------------------------
