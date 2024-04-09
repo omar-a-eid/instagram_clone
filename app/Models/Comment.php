@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Overtrue\LaravelLike\Traits\Likeable;
+
 
 
 class Comment extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use Likeable;
     protected $guarded = [];
 
     public function commentable(): MorphTo
