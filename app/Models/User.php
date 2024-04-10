@@ -57,10 +57,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    function posts():HasMany{
+    function posts(): HasMany
+    {
         return $this->hasMany(Post::class);
     }
-    function comments() : HasMany {
+
+
+
+    function comments(): HasMany
+    {
         return $this->hasMany(Comment::class);
     }
 
@@ -89,9 +94,28 @@ class User extends Authenticatable
     }
 
 
+    public function postsCount(): int
+    {
+        return $this->posts()->count();
+    }
+
     /*  Check if the authenticated user is following the given user.*/
     public function isFollowing($user)
     {
         return $this->following()->where('id', $user->id)->exists();
+    }
+
+    public function hasPosts($user)
+    {
+        return $this->posts()->where('user_id', $user->id)->exists();
+    }
+
+    // In your controller method
+    public function showProfile($userId)
+    {
+        $user = User::findOrFail($userId);
+        $post = $user->posts()->first();
+
+        return view('user_profile.show', compact('user', 'post'));
     }
 }

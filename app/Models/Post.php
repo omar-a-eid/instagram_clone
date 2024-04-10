@@ -16,19 +16,22 @@ class Post extends Model
     use HasFactory;
     use Likeable;
     use Favoriteable;
-    protected $guarded=[];
-    protected $casts=[
-        'hide_like_view'=>'boolean',
-        'allow_commenting'=>'boolean',
+    protected $guarded = [];
+    protected $casts = [
+        'hide_like_view' => 'boolean',
+        'allow_commenting' => 'boolean',
     ];
-    function user():BelongsTo{
+    function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
-    function media () : MorphMany {
-        return $this->morphMany(Media::class,'mediable');
+    function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'mediable');
     }
-    function comments() : MorphMany {
-        return $this->morphMany(Comment::class,'commentable')->with('replies');
+    function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable')->with('replies');
     }
 
     public function tags()

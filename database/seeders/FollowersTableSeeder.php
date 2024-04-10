@@ -18,7 +18,7 @@ class FollowersTableSeeder extends Seeder
 
         foreach ($users as $user) {
 
-            $followedUsers = $users->random(10);
+            $followedUsers = $users->random(100);
 
             $user->following()->attach($followedUsers);
         }
