@@ -3,6 +3,7 @@
 namespace App\Livewire\Post;
 use App\Models\Media;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Livewire\Component;
@@ -43,6 +44,19 @@ class Create extends ModalComponent
             'hide_like_view'=>$this->hide_like_view,
             'type'=>$type
         ]);
+
+
+        #check for tags 
+        $words = explode(' ', $this->description);
+        foreach ($words as $word) {
+            if (strpos($word, '#') === 0) {
+                $tagName = strtolower(substr($word, 1));
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $post->tags()->attach($tag);
+            }
+        }
+
+
         #add media
         foreach ($this->media as $key => $media) {
             #get mime type
@@ -80,6 +94,20 @@ class Create extends ModalComponent
         return 'post';
         }
     }
+
+    // function checkTags() {
+    //     $words = explode(' ', $this->description);
+    //     $foundTags = [];
+    //     $time = 0;
+    
+    //     foreach ($words as $word) {
+    //         if (strpos($word, '#') === 0 && !in_array($word, $foundTags)) {
+    //             $foundTags[] = $word;
+    //             $time += 1;
+    //             dd($time); // or dump($word);
+    //         }
+    //     }
+    // }
 
     public function render()
     {

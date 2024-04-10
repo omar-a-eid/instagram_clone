@@ -6,6 +6,8 @@ use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Home;
 use App\Livewire\Explore;
+use App\Livewire\TagController;
+
 
 
 /*
@@ -26,11 +28,12 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/', Home::class)->name("Home");
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/', Home::class)->name("Home");
     Route::get('/explore', Explore::class)->name("explore");
+    Route::get('/explore/tag/{name}', TagController::class)->name("tag.show");
     
 });
 

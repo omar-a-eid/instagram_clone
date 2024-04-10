@@ -1,4 +1,23 @@
 <div class="my-5 container mx-auto md:px-16 lg:px-30 xl:px-36 2xl:px-72">
+    @php
+        $cover = $posts[0]->media()->first();
+    @endphp
+    <div class="flex items-center mb-12">
+        <div class="flex-none w-44 h-44 rounded-full">
+            <img src="{{ $cover->url }}" alt="image" class="h-full w-full object-cover rounded-full" />
+        </div>
+        <div class="flex align-between flex-col ml-8 w-full">
+            <div class="mb-4">
+                <p class="text-3xl font-bold mb-2">#{{ $tag->name }}</p>
+                <p class="font-bold text-xl">{{ $posts->count() }}</p>
+                <p class="text-l">Posts</p>
+            </div>
+            <div>
+                <button
+                    class="bg-blue-400 hover:bg-blue-600 w-full text-white font-bold text-ms p-1 rounded">Follow</button>
+            </div>
+        </div>
+    </div>
 
     <ul class="grid grid-cols-3 sm:gap-5">
         @foreach ($posts as $post)
@@ -12,7 +31,8 @@
                     class="hidden group-hover:flex transition-all absolute inset-x-0 m-auto z-10 max-w-fit items-center gap-2">
                     <div class="flex items-center gap-2 text-white font-bold">
                         <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-6 h-6">
                                 <path
                                     d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
                             </svg>
