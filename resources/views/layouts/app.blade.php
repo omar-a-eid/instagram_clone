@@ -25,7 +25,7 @@
         }
     </style>
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/userProfile.css'])
+    @vite(['resources/js/app.js', 'resources/css/userProfile.css'])
 
 </head>
 

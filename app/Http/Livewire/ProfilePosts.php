@@ -1,11 +1,10 @@
 <?php
 
-// app/Http/Livewire/ProfilePosts.php
-
 namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
+use App\Models\Post; // Import the Post model
 
 class ProfilePosts extends Component
 {
@@ -19,7 +18,9 @@ class ProfilePosts extends Component
     public function render()
     {
         $user = User::find($this->userId);
-        $posts = $user->posts()->where('type', 'post')->get();
+
+        // Fetch posts with their associated media
+        $posts = Post::with('media')->where('user_id', $this->userId)->where('type', 'post')->get();
 
         return view('livewire.profile.posts', compact('posts'));
     }

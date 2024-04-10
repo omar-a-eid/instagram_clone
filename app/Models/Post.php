@@ -33,9 +33,4 @@ class Post extends Model
     {
         return $this->morphMany(Comment::class, 'commentable')->with('replies');
     }
-
-    public function getMediaUrls()
-    {
-        return $this->media->pluck('url');
-    }
 }
