@@ -212,7 +212,8 @@
                 <x-avatar src="" class=" w-7 h-7 shrink-0" />
 
                 <h4 x-cloak x-show="!(shrink||drawer)"
-                    class=" text-lg  {{ request()->routeIs('profile.home') ? 'font-bold' : 'font-medium' }} ">Profile</h4>
+                    class=" text-lg  {{ request()->routeIs('profile.home') ? 'font-bold' : 'font-medium' }} ">Profile
+                </h4>
             </a>
         </li>
         {{-- @endauth --}}

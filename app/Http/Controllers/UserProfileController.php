@@ -50,6 +50,7 @@ class UserProfileController extends Controller
         return view('user_profile.show', ['user' => $singleUser]);
     }
 
+
     /**
      * Show the form for editing the specified resource.
      */

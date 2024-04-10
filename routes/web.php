@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserProfileController;
-
+use Livewire\Livewire;
+use App\Http\Livewire\ProfilePosts;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Home;
 
@@ -33,6 +34,7 @@ Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('profi
 Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('profileEdit.edit');
 Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profileUpdate.update');
 Route::post('/profile', [UserProfileController::class, 'store'])->name('profileStore.store');
+Route::get('/profile/{userId}', [ProfilePosts::class, '__invoke'])->name('profile.posts');
 
 Route::get('/profile/{id}/followers', [UserProfileController::class, 'followers'])->name('profileFollowers.followers');
 Route::get('/profile/{id}/followings', [UserProfileController::class, 'followings'])->name('profileFollowers.followings');

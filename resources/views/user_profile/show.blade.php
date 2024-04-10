@@ -1,6 +1,6 @@
 <x-app-layout>
-    <x-slot name="header">
-    </x-slot>
+    {{-- <x-slot name="header">
+    </x-slot> --}}
 
     <div class="profile_container">
         <div class="profile_info">
@@ -73,7 +73,7 @@
                             Profile</a>
                     </p>
                     <div class="general_info">
-                        <p><span>1 </span>posts</p>
+                        <p><span>{{ $user->postsCount() }} </span>posts</p>
                         <a href="{{ route('profileFollowers.followers', $user->id) }}"
                             class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal"
                             data-bs-target="#followersModal">
@@ -246,62 +246,51 @@
                         </button>
                     </li>
                 </ul>
+
+                {{-- Errorr!!!!! --}}
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                         aria-labelledby="pills-home-tab" tabindex="0">
-                        <div id="posts_sec" class="post">
-                            <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/Jqh3rHv/img1.jpg"
-                                    alt="">
-                            </div>
-                            <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/2ZxBFVp/img2.jpg"
-                                    alt="">
-                            </div>
-                            <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/5vQt677/img3.jpg"
-                                    alt="">
-                            </div>
-                            <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg"
-                                    alt="">
-                            </div>
-                            <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/j8L7FPY/account10.jpg"
-                                    alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="pills-profile" role="tabpanel"
-                        aria-labelledby="pills-profile-tab" tabindex="0">
-                        <div id="saved_sec" class="post">
-                            <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/6WvdZS9/account12.jpg"
-                                    alt="">
-                            </div>
-                            <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg"
-                                    alt="">
-                            </div>
 
+                        <div id="posts_sec" class="post">
+                            <!-- Livewire component to display user posts -->
+                            @livewire('profile.posts', ['userId' => $user->id])
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="pills-contact" role="tabpanel"
-                        aria-labelledby="pills-contact-tab" tabindex="0">
-                        <div id="tagged" class="post">
-                            <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/Zhc5hHp/account4.jpg"
-                                    alt="">
-                            </div>
-                            <div class="item">
-                                <img class="img-fluid item_img" src="https://i.ibb.co/SPTNbJL/account5.jpg"
-                                    alt="">
-                            </div>
+                </div>
+                {{-- errorr --}}
+
+
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
+                    tabindex="0">
+                    <div id="saved_sec" class="post">
+                        <div class="item">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/6WvdZS9/account12.jpg"
+                                alt="">
+                        </div>
+                        <div class="item">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/pJ8thst/account13.jpg"
+                                alt="">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab"
+                    tabindex="0">
+                    <div id="tagged" class="post">
+                        <div class="item">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/Zhc5hHp/account4.jpg"
+                                alt="">
+                        </div>
+                        <div class="item">
+                            <img class="img-fluid item_img" src="https://i.ibb.co/SPTNbJL/account5.jpg"
+                                alt="">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <script src="{{ asset('assets/js/showProfile.js') }}" defer></script>
 </x-app-layout>
