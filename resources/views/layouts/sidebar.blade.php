@@ -2,7 +2,7 @@
     shrink: false,
     drawer: false
 
-}" class="menu p-3   w-20 overflow-x-hidden h-full grid bg-white border-r text-base-content"
+}" class="menu p-3 w-80 overflow-x-hidden h-full grid bg-white border-r text-base-content"
     :class="{ 'w-72 ': !shrink }">
 
     {{-- Logo --}}
@@ -68,7 +68,7 @@
             </a></li>
 
 
-        <li><a wire:navigate href="" class="flex items-center gap-5">
+        <li><a wire:navigate href="{{ route('explore') }}" class="flex items-center gap-5">
 
                 <span>
 
@@ -212,7 +212,8 @@
                 <x-avatar src="" class=" w-7 h-7 shrink-0" />
 
                 <h4 x-cloak x-show="!(shrink||drawer)"
-                    class=" text-lg  {{ request()->routeIs('profile.home') ? 'font-bold' : 'font-medium' }} ">Profile</h4>
+                    class=" text-lg  {{ request()->routeIs('profile.home') ? 'font-bold' : 'font-medium' }} ">Profile
+                </h4>
             </a>
         </li>
         {{-- @endauth --}}
