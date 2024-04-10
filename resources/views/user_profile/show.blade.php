@@ -249,7 +249,6 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
 
-
                     <div class="profile-posts">
                         <!-- Livewire component to display user posts -->
                         @livewire('profile.posts', ['userId' => $user->id])

@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
-use App\Models\Post; // Import the Post model
+use App\Models\Post;
 
 class ProfilePosts extends Component
 {
@@ -14,6 +14,16 @@ class ProfilePosts extends Component
     {
         $this->userId = $userId;
     }
+
+    // Method to load a specific post for a specific user
+    public function loadPostForUser($postId)
+    {
+        $post = Post::with('media')->where('user_id', $this->userId)->where('id', $postId)->first();
+
+        // Emit an event with the loaded post data
+        $this->emit('postLoaded', $post);
+    }
+
 
     public function render()
     {
