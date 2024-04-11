@@ -6,7 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\Auth\QueuedVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable implements MustVerifyEmail 
 {
@@ -39,6 +41,11 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<string, string>
      */
+
+     public function sendEmailVerificationNotification()
+    {
+        $this->notify(new QueuedVerifyEmail);
+    }
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
