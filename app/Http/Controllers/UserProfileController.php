@@ -6,9 +6,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 class UserProfileController extends Controller
 {
+
+
     /**
      * Store a newly created resource in storage.
      */

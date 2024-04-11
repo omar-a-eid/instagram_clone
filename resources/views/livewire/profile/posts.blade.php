@@ -9,7 +9,9 @@
                         <div class="ratio ratio-1x1">
                             <!-- Add a click event handler to the image -->
                             <img src="{{ asset($media->url) }}" class="img-fluid" alt="Post Media"
-                                wire:click="loadPostForUser({{ $post->id }})">
+                                onclick="Livewire.dispatch('openModal',{component:'post.view.modal',arguments:{'post':{{ $post->id }}}})"
+                                class="h-50 sm:h-96 w-full cursor-pointer border rounded bg-black relative items-center flex justify-center group">
+
                         </div>
                     @endforeach
                 </div>
