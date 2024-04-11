@@ -73,7 +73,7 @@
                     <span class="ligne"></span>
                 </div>
                 <div class="forget-password">
-                    <a href="#">
+                    <a href="{{route('password.request')}}">
                         Forgot password?
                     </a>
                 </div>
