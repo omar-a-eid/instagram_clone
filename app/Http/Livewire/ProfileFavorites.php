@@ -17,10 +17,13 @@ class ProfileFavorites extends Component
 
     public function render()
     {
+        // Find the user
         $user = User::find($this->userId);
 
         // Fetch favorited posts with their associated media
-        $favoritedPosts = $user->favorites()->with('post.media')->get();
+        $favoritedPosts = Post::whereIn('id', $user->favorites()->pluck('favoriteable_id'))
+            ->with('media')
+            ->get();
 
         return view('livewire.profile.favorites', compact('favoritedPosts'));
     }
