@@ -304,23 +304,25 @@
 
                     {{-- user account details --}}
                     <div class="info">
-                        <p class="name">
-                            {{ $user->name }}
-                            <a href="{{ route('profileEdit.edit', $user->id) }}"
-                                class="btn btn-secondary edit_profile">Edit
-                                Profile</a>
-                        </p>
-                        <div class="general_info">
-                            <p><span>{{ $user->postsCount() }} </span>posts</p>
+                        <div>
+                            <p class="name">
+                                {{ $user->name }}
+                                <a href="{{ route('profileEdit.edit', $user->id) }}"
+                                    class="btn btn-secondary edit_profile">Edit
+                                    Profile</a>
+                            </p>
+                        </div>
+                        <div class="general_info ">
+                            <span class="fw-bold">{{ $user->postsCount() }} posts </span>
                             <a href="{{ route('profileFollowers.followers', $user->id) }}"
                                 class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal"
                                 data-bs-target="#followersModal">
-                                <p><span> {{ $user->followersCount() }} </span>followers</p>
+                                <span class="fw-bold cursor-pointer"> {{ $user->followersCount() }} followers </span>
                             </a>
                             <a href="{{ route('profileFollowers.followings', $user->id) }}"
                                 class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal"
                                 data-bs-target="#followingsModal">
-                               <p><span> {{ $user->followingCount() }} </span>followings</p>
+                                <span class="fw-bold cursor-pointer"> {{ $user->followingCount() }} followings </span>
                             </a>
                         </div>
 
@@ -522,13 +524,13 @@
 
                         <div class="tab-pane fade" id="pills-contact" role="tabpanel"
                             aria-labelledby="pills-contact-tab">
-                            <div id="tagged" class="post">
+                            <div id="tagged" class="post row g-4 mt-5 col-lg-4 col-md-4 col-sm-6 col-12 ">
 
-                                <div class="item">
+                                <div class="item ">
                                     <img class="img-fluid item_img" src="https://i.ibb.co/Zhc5hHp/account4.jpg"
                                         alt="">
                                 </div>
-                                <div class="item">
+                                <div class="item ">
                                     <img class="img-fluid item_img" src="https://i.ibb.co/SPTNbJL/account5.jpg"
                                         alt="">
                                 </div>

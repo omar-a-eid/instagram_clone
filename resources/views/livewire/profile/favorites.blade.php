@@ -6,6 +6,7 @@
                     @foreach ($favorite->media ?? [] as $media)
                         <div class="ratio ratio-4x3">
                             <img src="{{ asset($media->url) }}" alt="Favorite Post Media" class="img-fluid"
+                                {{-- Add a click event handler to the image --}}
                                 onclick="Livewire.dispatch('openModal',{component:'post.view.modal',arguments:{'post':{{ $favorite->id }}}})"
                                 class="w-full h-full cursor-pointer border rounded bg-black relative items-center flex justify-center group">
                         </div>

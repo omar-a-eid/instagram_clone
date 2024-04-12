@@ -74,10 +74,7 @@
     justify-content: flex-start;
     margin: 15px 0;
 }
-.profile_container .profile_info .info .general_info:nth-child(2),
-.profile_container .profile_info .info .general_info:nth-child(3) {
-    cursor: pointer;
-}
+
 @media screen and (max-width: 498px) {
     .profile_container .profile_info .info .general_info {
         margin: 5px 0;
@@ -175,7 +172,6 @@
 }
 
 /* Profile and Edit Profile */
-
 .circle-image {
     width: 150px !important;
     height: 150px;
@@ -205,7 +201,6 @@
 }
 
 /* Followers List, Following List */
-
 .follower-container,
 .following-container {
     display: flex;
@@ -227,21 +222,20 @@
 }
 
 /* Modal Header */
-
 .modal-header .modal-title {
     display: flex;
     justify-content: center;
     margin-left: auto;
 }
 
-/* CSS styling for the search input */
+/* Styling for the search input */
 .search-container {
     position: relative;
     display: inline-block;
 }
 
 .search-input {
-    width: 350px; /* Adjust width as needed */
+    width: 350px;
     padding: 8px 12px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -259,7 +253,6 @@
     border: none;
     cursor: pointer;
 }
-
 
 /* Initially hide the checkbox */
 #menu-toggle {
@@ -281,30 +274,26 @@
     cursor: pointer;
 }
 
-
-
 /* Adjustments for the sidebar */
 .sidebar {
-    width: 250px; /* Adjust as needed */
-    /* Other styles */
+    width: 250px;
 }
 
 /* Adjustments for the profile container */
-/* Adjustments for the profile container */
 .profile_container {
     /* Add margin to create space between the sidebar and profile container */
-    margin-left: 250px; 
+    margin-left: 250px;
     /* Add padding to the profile container */
-    padding: 20px; 
+    padding: 20px;
     /* Add box-sizing to include padding in width calculation */
-    box-sizing: border-box; 
+    box-sizing: border-box;
     /* Allow the profile container to grow and take up remaining space */
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
 /* Adjustments for the content inside the profile container */
 .profile_content {
-    max-width: 100%; /* Adjust as needed */
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -314,14 +303,12 @@
     height: 100vh; /* Take up the full height of the viewport */
 }
 
-
 @media screen and (max-width: 991px) {
     .profile_container {
         margin-left: 0; /* Reset margin for smaller screens */
         max-width: 100%; /* Adjust max-width to fit smaller screens */
     }
 }
-
 
 @media screen and (max-width: 768px) {
     .profile_container {
