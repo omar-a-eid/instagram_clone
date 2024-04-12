@@ -19,7 +19,7 @@
                     <!-- Home -->
                     <li class="flex items-center gap-5">
                         <a href="/"
-                            class="flex items-center gap-3 text-decoration-none px-4 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
+                            class="flex items-center gap-5 text-decoration-none px-4 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
                             <span>
                                 @if (request()->routeIs('Home'))
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -45,7 +45,7 @@
                     <!-- Search -->
                     <li><a class="flex items-center gap-5">
                             <a href="#"
-                                class="flex items-center gap-3 text-decoration-none px-4 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
+                                class="flex items-center gap-5 text-decoration-none px-4 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                         class="w-6 h-6">
@@ -63,7 +63,7 @@
                     <!-- Explore -->
                     <li>
                         <a href="{{ route('explore') }}"
-                            class="flex items-center gap-3 text-decoration-none px-4 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
+                            class="flex items-center gap-5 text-decoration-none px-4 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
                             <span>
 
                                 @if (request()->routeIs('explore'))
@@ -90,7 +90,7 @@
                     <!-- Reel -->
                     <li>
                         <a href="#"
-                            class="flex items-center gap-3 text-decoration-none px-4 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
+                            class="flex items-center gap-5 text-decoration-none px-4 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
                             <span>
                                 @if (request()->routeIs('reels'))
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
@@ -122,7 +122,7 @@
                     <!-- Messages -->
                     <li>
                         <a href="#"
-                            class="flex items-center gap-3 text-decoration-none px-4 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
+                            class="flex items-center gap-5 text-decoration-none px-4 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
                             <span>
                                 <svg class="w-6 h-6 text-gray-800" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 32 32" id="messenger">
@@ -142,7 +142,7 @@
                     <!-- Notifications -->
                     <li>
                         <a href="#"
-                            class="flex items-center gap-3 text-decoration-none px-4 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
+                            class="flex items-center gap-5 text-decoration-none px-4 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.9" stroke="currentColor" class="w-6 h-6">
@@ -157,7 +157,7 @@
                     <!-- Create Post -->
                     <li>
                         <div onclick="Livewire.dispatch('openModal', { component: 'post.create' })"
-                            class="flex items-center gap-3 text-decoration-none px-4 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
+                            class="flex items-center gap-5 text-decoration-none px-4 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
                             <span class="border border-gray-600  rounded-lg p-px">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.9" stroke="currentColor" class="w-5 h-5">
@@ -173,24 +173,15 @@
                     <!-- Profile -->
                     <li>
                         <a href="{{ route('profile.show', $user->id) }}"
-                            class="flex items-center gap-3 text-decoration-none px-4 py-3 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
+                            class="flex items-center gap-5 text-decoration-none px-4 py-2 rounded-lg transition duration-300 ease-in-out hover:bg-gray-100">
                             <span>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="w-6 h-6">
-                                    <path
-                                        d="M12 2c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 2a7 7 0 017 7c0 3.866-3.134 7-7 7s-7-3.134-7-7a7 7 0 017-7zm0 10a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                                </svg>
-
-
+                                <x-avatar src="" class=" w-7 h-7 shrink-0" />
                             </span>
                             <h4
                                 class=" text-lg  {{ request()->routeIs('profile.home') ? 'font-bold' : 'font-medium' }} ">
                                 Profile</h4>
                         </a>
                     </li>
-
-
                 </ul>
             </div>
 
@@ -198,7 +189,7 @@
             <footer class="more-section sticky bottom-0 mt-auto w-full grid px-3 z-50 bg-white">
                 <div class="dropdown dropdown-top">
                     <label for="menu-toggle" tabindex="0"
-                        class="cursor-pointer bg-white flex items-center w-full gap-3 m-1">
+                        class="cursor-pointer bg-white flex items-center w-full gap-5 m-1">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-8 h-8">
@@ -312,8 +303,8 @@
                                     Profile</a>
                             </p>
                         </div>
-                        <div class="general_info ">
-                            <span class="fw-bold">{{ $user->postsCount() }} posts </span>
+                        <div class="general_info">
+                            <span class="fw-bold mt-2" style="width: 100px">{{ $user->postsCount() }} posts </span>
                             <a href="{{ route('profileFollowers.followers', $user->id) }}"
                                 class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal"
                                 data-bs-target="#followersModal">
