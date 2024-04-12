@@ -315,12 +315,12 @@
                             <a href="{{ route('profileFollowers.followers', $user->id) }}"
                                 class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal"
                                 data-bs-target="#followersModal">
-                                {{ $user->followersCount() }} Followers
+                                <p><span> {{ $user->followersCount() }} </span>followers</p>
                             </a>
                             <a href="{{ route('profileFollowers.followings', $user->id) }}"
                                 class="btn btn-link text-decoration-none text-dark w-50" data-bs-toggle="modal"
                                 data-bs-target="#followingsModal">
-                                {{ $user->followingCount() }} Followings
+                               <p><span> {{ $user->followingCount() }} </span>followings</p>
                             </a>
                         </div>
 
@@ -443,7 +443,21 @@
 
 
                 {{-- Stories region --}}
-                <div class="highlights">
+                <div class="highlights mt-4 mb-5">
+                    <div class="highlight">
+                        <div class="img">
+                            <img src="{{ asset('assets/images/newSunset.jpg') }}" alt="Example Image"
+                                class="highlighted-image rounded-circle">
+                        </div>
+                        <p>conseils</p>
+                    </div>
+                    <div class="highlight">
+                        <div class="img">
+                            <img src="{{ asset('assets/images/newSunset.jpg') }}" alt="Example Image"
+                                class="highlighted-image rounded-circle">
+                        </div>
+                        <p>conseils</p>
+                    </div>
                     <div class="highlight">
                         <div class="img">
                             <img src="{{ asset('assets/images/newSunset.jpg') }}" alt="Example Image"

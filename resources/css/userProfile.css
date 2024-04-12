@@ -1,6 +1,6 @@
 .profile_container {
     padding: 60px 10px 0;
-    margin: auto;
+    /* margin: auto; */
     max-width: 700px;
 }
 @media screen and (max-width: 991px) {
@@ -84,10 +84,11 @@
     }
 }
 .profile_container .profile_info .info .general_info p {
-    margin-right: 15px;
+    margin-right: 5px;
+    width: 90px;
 }
 .profile_container .profile_info .info .general_info p span {
-    font-weight: 500;
+    font-weight: 700;
 }
 .profile_container .profile_info .info .nick_name {
     font-weight: 500;
@@ -176,8 +177,8 @@
 /* Profile and Edit Profile */
 
 .circle-image {
-    width: 100px !important;
-    height: 100px;
+    width: 150px !important;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
 }
