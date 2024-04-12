@@ -21,6 +21,10 @@ class Item extends Component
         abort_unless(auth()->check(),401);
         auth()->user()->toggleLike($comment);
     }
+    function toggleFavorite(){
+        abort_unless(auth()->check(),401);
+        auth()->user()->toggleFavorite($this->post);
+    }
     function addComment(){
 
         $this->validate(['body'=>'required']);
