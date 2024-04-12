@@ -206,7 +206,7 @@ class UserProfileController extends Controller
         return redirect()->back();
     }
 
-    //Implements the unfollow button
+    //unfollows a user that is followed
     public function unfollow($id)
     {
         $user = auth()->user();
@@ -216,4 +216,16 @@ class UserProfileController extends Controller
 
         return redirect()->back();
     }
+
+        // Remove the follower from the user's followers list
+        public function removeFollower($id)
+        {
+            $follower = User::findOrFail($id);
+            $user = auth()->user();
+    
+    
+            $user->followers()->detach($follower->id);
+    
+            return redirect()->back();
+        }
 }
