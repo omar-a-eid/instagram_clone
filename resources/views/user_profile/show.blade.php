@@ -459,8 +459,8 @@
                         <p>New</p>
                     </div>
                 </div>
-                <hr>
 
+                <hr>
 
                 {{-- Posts - Saved - Reels Region  --}}
                 <div class="posts_profile">
@@ -485,31 +485,31 @@
                             <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-contact" type="button" role="tab"
                                 aria-controls="pills-contact" aria-selected="false">
+
                                 <img src="{{ asset('assets/images/tagged.png') }}" alt="tagged posts">
                                 TAGGED
                             </button>
                         </li>
                     </ul>
+
                     <div class="tab-content" id="pills-tabContent">
 
-                        <div class="profile-posts">
+                        <div class="profile-posts tab-pane fade show active" id="pills-home" role="tabpanel"
+                            aria-labelledby="pills-home-tab">
                             <!-- Livewire component to display user posts -->
                             @livewire('profile.posts', ['userId' => $user->id])
                         </div>
 
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel"
-                            aria-labelledby="pills-profile-tab" tabindex="0">
-                            <div id="saved_sec" class="post">
-                                <div class="favorites">
-                                    <!-- Livewire component to display user posts -->
-                                    @livewire('profile.favorites', ['userId' => $user->id])
-                                </div>
-
-                            </div>
+                            aria-labelledby="pills-profile-tab">
+                            <!-- Livewire component to display user favorites -->
+                            @livewire('profile.favorites', ['userId' => $user->id])
                         </div>
+
                         <div class="tab-pane fade" id="pills-contact" role="tabpanel"
-                            aria-labelledby="pills-contact-tab" tabindex="0">
+                            aria-labelledby="pills-contact-tab">
                             <div id="tagged" class="post">
+
                                 <div class="item">
                                     <img class="img-fluid item_img" src="https://i.ibb.co/Zhc5hHp/account4.jpg"
                                         alt="">
@@ -525,6 +525,7 @@
             </div>
         </div>
     </div>
+
 
     <script src="{{ asset('assets/js/showProfile.js') }}" defer></script>
 </x-app-layout>

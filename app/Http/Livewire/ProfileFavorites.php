@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use App\Models\Post;
+use Livewire\Attributes\On;
 
 class ProfileFavorites extends Component
 {
@@ -14,6 +15,14 @@ class ProfileFavorites extends Component
     {
         $this->userId = $userId;
     }
+
+
+    #[On('closeModal')]
+    function revertUrl()
+    {
+        $this->js("history.replaceState({},'','/profile/$this->userId')");
+    }
+
 
     public function render()
     {
