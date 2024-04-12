@@ -21,5 +21,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Livewire::component('profile.posts', \App\Http\Livewire\ProfilePosts::class);
+        Livewire::component('profile.favorites', \App\Http\Livewire\ProfileFavorites::class);
     }
+
+    
 }

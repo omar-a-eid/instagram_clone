@@ -1,6 +1,6 @@
 .profile_container {
     padding: 60px 10px 0;
-    margin: auto;
+    /* margin: auto; */
     max-width: 700px;
 }
 @media screen and (max-width: 991px) {
@@ -84,10 +84,11 @@
     }
 }
 .profile_container .profile_info .info .general_info p {
-    margin-right: 15px;
+    margin-right: 5px;
+    width: 90px;
 }
 .profile_container .profile_info .info .general_info p span {
-    font-weight: 500;
+    font-weight: 700;
 }
 .profile_container .profile_info .info .nick_name {
     font-weight: 500;
@@ -176,8 +177,8 @@
 /* Profile and Edit Profile */
 
 .circle-image {
-    width: 100px !important;
-    height: 100px;
+    width: 150px !important;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -257,4 +258,75 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+}
+
+
+/* Initially hide the checkbox */
+#menu-toggle {
+    display: none;
+}
+
+/* Initially hide the dropdown menu */
+.dropdown-menu {
+    display: none;
+}
+
+/* Show the dropdown menu when the checkbox is checked */
+#menu-toggle:checked + .dropdown-menu {
+    display: block;
+}
+
+/* Apply styles to the label */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+
+
+/* Adjustments for the sidebar */
+.sidebar {
+    width: 250px; /* Adjust as needed */
+    /* Other styles */
+}
+
+/* Adjustments for the profile container */
+/* Adjustments for the profile container */
+.profile_container {
+    /* Add margin to create space between the sidebar and profile container */
+    margin-left: 250px; 
+    /* Add padding to the profile container */
+    padding: 20px; 
+    /* Add box-sizing to include padding in width calculation */
+    box-sizing: border-box; 
+    /* Allow the profile container to grow and take up remaining space */
+    flex-grow: 1; 
+}
+
+/* Adjustments for the content inside the profile container */
+.profile_content {
+    max-width: 100%; /* Adjust as needed */
+    margin: 0 auto;
+}
+
+/* Flex container for sidebar and profile container */
+.wrapper {
+    display: flex;
+    height: 100vh; /* Take up the full height of the viewport */
+}
+
+
+@media screen and (max-width: 991px) {
+    .profile_container {
+        margin-left: 0; /* Reset margin for smaller screens */
+        max-width: 100%; /* Adjust max-width to fit smaller screens */
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .profile_container {
+        margin-left: 0; /* Reset margin for smaller screens */
+        max-width: 95%; /* Adjust max-width for smaller screens */
+        padding-top: 20px; /* Adjust padding for smaller screens */
+    }
 }

@@ -68,6 +68,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+    
 
 
     /* Methods handling relation between followers table and users table*/
