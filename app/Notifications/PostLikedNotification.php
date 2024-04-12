@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
@@ -9,14 +10,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewFollowerNotification extends Notification implements ShouldBroadcastNow
+class PostLikedNotification extends Notification implements ShouldBroadcastNow
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(public User $user)
+    public function __construct(public User $user,public Post $post)
     {
         //
     }
@@ -51,7 +52,8 @@ class NewFollowerNotification extends Notification implements ShouldBroadcastNow
     {
         return [
             //
-            'user_id'=>$this->user->id
+            'user_id'=>$this->user->id,
+            'post_id'=>$this->post->id,
 
         ];
     }
