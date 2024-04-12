@@ -354,7 +354,7 @@
                                                 <li class="follower-container">
                                                     <span>{{ $follower->name }}</span>
                                                     @if (auth()->user()->isFollowing($follower))
-                                                        <form action="{{ route('unfollow', $follower->id) }}"
+                                                        <form action="{{ route('removeFollower', $follower->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')
