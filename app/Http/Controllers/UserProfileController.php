@@ -29,7 +29,7 @@ class UserProfileController extends Controller
                 Storage::disk('public')->delete($user->image);
             }
 
-            $imagePath = $request->file('image')->store('users', ['disk' => 'public']);
+           $imagePath = $request->file('image')->store('users', 'public');
             $user->image = $imagePath;
         }
 
