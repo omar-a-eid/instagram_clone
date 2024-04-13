@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Home;
 use App\Livewire\Explore;
 use App\Livewire\TagController;
+use App\Http\Controllers\TagController as TagController2;
 
 
 
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/explore', Explore::class)->name("explore");
     Route::get('/explore/tag/{name}', TagController::class)->name("tag.show");
+    Route::post('/tags/follow/{tag}', [TagController2::class, "follow"])->name("tag.follow");
     Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('profileEdit.edit');
     Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profileUpdate.update');
