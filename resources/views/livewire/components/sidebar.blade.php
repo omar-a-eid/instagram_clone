@@ -217,7 +217,13 @@
                 class="flex items-center gap-5">
 
 
-                <x-avatar src="{{ asset('storage/' . auth()->user()->image) }}" class=" w-7 h-7 shrink-0" />
+                @if (!auth()->user()->image)
+                    <x-avatar src="{{ asset('assets/images/avatar.jpeg') }}" class=" w-7 h-7 shrink-0" />
+                @else
+                    <x-avatar src="{{ asset('storage/' . auth()->user()->image) }}" class=" w-7 h-7 shrink-0" />
+                @endif
+
+
 
                 <h4 x-cloak x-show="!(shrink||drawer)"
                     class=" text-lg  {{ request()->routeIs('profile.show') ? 'font-bold' : 'font-medium' }} ">Profile
@@ -312,8 +318,15 @@
                                 <li>
                                     <a href="{{ route('profile.show', ['id' => $user->id]) }}"
                                         class="flex gap-2 truncate items-center">
-                                        <img class="w-9 h-9 mb-auto rounded-full"
-                                            src="{{ asset('storage/' . $user->image) }}" />
+
+                                        @if (!$user->image)
+                                            <img src="{{ asset('assets/images/avatar.jpeg') }}" alt="Avatar"
+                                                id="profileImage" class="w-9 h-9 mb-auto rounded-full">
+                                        @else
+                                            <img class="w-9 h-9 mb-auto rounded-full"
+                                                src="{{ asset('storage/' . $user->image) }}" />
+                                        @endif
+
                                         <div class="flex flex-col">
                                             <span class="font-bold text-sm">{{ $user->username }}</span>
                                         </div>

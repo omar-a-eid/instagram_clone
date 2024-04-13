@@ -1,5 +1,11 @@
 <div wire:key="reply-{{ $reply->id }}" class="flex items-center gap-3 w-11/12 ml-auto py-2">
-    <x-avatar wire:ignore src="{{ asset('storage/' . $reply->user->image) }}" class="h-8 w-8 mb-auto" />
+
+    @if (!$reply->user->image)
+        <x-avatar src="{{ asset('assets/images/avatar.jpeg') }}" class="h-8 w-8 mb-auto" />
+    @else
+        <x-avatar wire:ignore src="{{ asset('storage/' . $reply->user->image) }}" class="h-8 w-8 mb-auto" />
+    @endif
+
     <div class="grid grid-cols-7 w-full gap-2">
         {{-- reply --}}
         <div class="col-span-6 flex flex-wrap text-sm">

@@ -73,7 +73,13 @@
 
     <aside class="lg:col-span-5 h-full scrollbar-hide relative flex gap-4 flex-col overflow-hidden overflow-y-scroll">
         <header class="flex  items-center gap-3 border-b py-2  sticky  top-0 bg-white z-10 ">
-            <x-avatar src="{{ asset('storage/' . $post->user->image) }}" class="h-9 w-9" />
+
+            @if (!$post->user->image)
+                <x-avatar src="{{ asset('assets/images/avatar.jpeg') }}" class="h-9 w-9" />
+            @else
+                <x-avatar src="{{ asset('storage/' . $post->user->image) }}" class="h-9 w-9" />
+            @endif
+
             <div class="grid grid-cols-7 w-full gap-2">
                 <div class="col-span-5">
                     <a href="{{ route('profile.show', ['id' => $post->user->id]) }}"

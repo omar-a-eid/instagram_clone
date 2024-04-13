@@ -3,7 +3,12 @@
     {{-- header --}}
 
     <header class="flex items-center gap-3">
-        <x-avatar src="{{ asset('storage/' . $post->user->image) }}" class="h-9 w-9" />
+        @if (!$post->user->image)
+            <x-avatar src="{{ asset('assets/images/avatar.jpeg') }}" class="h-9 w-9" />
+        @else
+            <x-avatar src="{{ asset('storage/' . $post->user->image) }}" class="h-9 w-9" />
+        @endif
+
         <div class="grid grid-cols-7 w-full gap-2">
             <div class="col-span-5">
                 <a href="{{ route('profile.show', ['id' => $post->user->id]) }}"

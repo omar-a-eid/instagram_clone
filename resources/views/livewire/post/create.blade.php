@@ -51,7 +51,12 @@
         <aside class="lg:col-span-5 h-full border-l p-3 flex gap-4 flex-col overflow-hidden overflow-y-scroll">
             {{-- Author --}}
             <div class="flex items-center gap-2">
-                <x-avatar src="{{ asset('storage/' . auth()->user()->image) }}" class="w-9 h-9" />
+                @if (!auth()->user()->image)
+                    <x-avatar src="{{ asset('assets/images/avatar.jpeg') }}" class="w-9 h-9" />
+                @else
+                    <x-avatar src="{{ asset('storage/' . auth()->user()->image) }}" class="w-9 h-9" />
+                @endif
+
                 <h5 class="font-bold">{{ auth()->user()->name }} </h5>
             </div>
             <div>

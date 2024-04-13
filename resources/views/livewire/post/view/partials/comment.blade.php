@@ -1,5 +1,11 @@
 <div wire:key="comment-{{ $comment->id }}" class="flex items-center gap-3 py-2">
-    <x-avatar wire:ignore src="{{ asset('storage/' . $comment->user->image) }}" class="h-9 w-9 mb-auto" />
+
+    @if (!$comment->user->image)
+        <x-avatar src="{{ asset('assets/images/avatar.jpeg') }}" class="h-9 w-9 mb-auto" />
+    @else
+        <x-avatar wire:ignore src="{{ asset('storage/' . $comment->user->image) }}" class="h-9 w-9 mb-auto" />
+    @endif
+
     <div class="grid grid-cols-7 w-full gap-2">
         {{-- comment --}}
         <div class="col-span-6 flex flex-wrap text-sm">

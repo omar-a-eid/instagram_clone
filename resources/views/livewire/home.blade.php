@@ -84,7 +84,11 @@
 
         <aside class="lg:col-span-4 hidden lg:block p-4">
             <a href="{{ route('profile.show', ['id' => auth()->user()->id]) }}" class="flex items-center gap-2">
-                <x-avatar src="{{ asset('storage/' . auth()->user()->image) }}" class="w-12 h-12" />
+                @if (!auth()->user()->image)
+                    <x-avatar src="{{ asset('assets/images/avatar.jpeg') }}" class="w-12 h-12" />
+                @else
+                    <x-avatar src="{{ asset('storage/' . auth()->user()->image) }}" class="w-12 h-12" />
+                @endif
                 <h4 class="font-medium">{{ auth()->user()->name }}</h4>
             </a>
             {{-- Follow Suggestion --}}
