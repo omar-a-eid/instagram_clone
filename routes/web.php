@@ -54,6 +54,8 @@ Route::get('/profile/follower/{followerId}', [UserProfileController::class, 'sho
 
 
 
-
+Route::fallback(function () {
+    return redirect('/');
+});
 
 require __DIR__ . '/auth.php';

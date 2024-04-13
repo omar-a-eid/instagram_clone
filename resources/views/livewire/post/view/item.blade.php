@@ -1,22 +1,73 @@
 <div class="grid lg:grid-cols-12 gap-3 h-full w-full overflow-hidden">
     <aside class="hidden lg:flex lg:col-span-7 m-auto items-center w-full overflow-scroll">
-        <div
-            class="relative flex overflow-x-scroll overscroll-contain w-[500px]  selection:snap-x snap-mandatory gap-2 px-2">
-            @foreach ($post->media as $key => $file)
-                <div class="w-full h-full shrink-0 snap-always snap-center">
-                    @switch($file->mime)
-                        @case('video')
-                            <x-video source="{{ $file->url }}" />
-                        @break
+        <div class="my-2 w-full">
+            <!-- Slider main container -->
+            <div x-init="new Swiper($el, {
+            
+                modules: [Navigation, Pagination],
+                loop: true,
+            
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+            
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            
+            });" class="swiper h-[500px] border bg-white">
+                <!-- Additional required wrapper -->
+                <ul x-cloak class="swiper-wrapper">
+                    <!-- Slides -->
+                    @foreach ($post->media as $file)
+                        <li class="swiper-slide">
+                            @switch($file->mime)
+                                @case('video')
+                                    <x-video source="{{ $file->url }}" />
+                                @break
 
-                        @case('image')
-                            <img src="{{ $file->url }}" alt="image" class="h-full w-full block object-scale-down">
-                        @break
+                                @case('image')
+                                    <img src="{{ $file->url }}" alt=""
+                                        class="h-[500px] w-full block object-scale-down">
+                                @break
 
-                        @default
-                    @endswitch
-                </div>
-            @endforeach
+                                @default
+                            @endswitch
+                        </li>
+                    @endforeach
+                </ul>
+
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+                @if (count($post->media) > 1)
+                    {{-- prev --}}
+                    <div class="swiper-button-prev absolute top-1/2 z-10 p-2">
+                        <div class=" bg-white/95 border p-1 rounded-full text-gray-900">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2.8" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                            </svg>
+                        </div>
+                    </div>
+                    {{-- next --}}
+                    <div class="swiper-button-next absolute right-0 top-1/2 z-10 p-2">
+                        <div class=" bg-white/95 border p-1 rounded-full text-gray-900">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2.8" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </div>
+                    </div>
+                @endif
+
+
+
+                <!-- If we need scrollbar -->
+                <div class="swiper-scrollbar"></div>
+            </div>
+
         </div>
     </aside>
 
@@ -101,13 +152,24 @@
                     </svg>
                 </span>
                 {{-- Save --}}
-                <span class="ml-auto">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
-                    </svg>
-                </span>
+                @if ($post->hasBeenFavoritedBy(auth()->user()))
+                    <button wire:click='toggleFavorite()'>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                            <path fill-rule="evenodd"
+                                d="M6.32 2.577a49.255 49.255 0 0 1 11.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 0 1-1.085.67L12 18.089l-7.165 3.583A.75.75 0 0 1 3.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93Z"
+                                clip-rule="evenodd" />
+                        </svg>
+
+                    </button>
+                @else
+                    <button wire:click='toggleFavorite()'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+                        </svg>
+                    </button>
+                @endif
             </div>
             {{-- Likes and views --}}
             @if ($post->totalLikers > 0 && !$post->hide_like_view)
@@ -156,8 +218,8 @@
                         </button>
                     </div>
                     <span class="col-span-1 ml-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-5 h-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
                         </svg>
