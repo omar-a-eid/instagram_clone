@@ -48,9 +48,9 @@ class UserProfileController extends Controller
     public function show($id)
     {
         $singleUser = User::findorfail($id);
-        if ($singleUser->id != Auth::id()) {
-            abort(403, "you are not authorized");
-        }
+        // if ($singleUser->id != Auth::id()) {
+        //     abort(403, "you are not authorized");
+        // }
         return view('user_profile.show', ['user' => $singleUser]);
     }
 
@@ -228,4 +228,26 @@ class UserProfileController extends Controller
     
             return redirect()->back();
         }
+
+         /**
+         * Display the profile of a follower.
+         */
+        // public function showFollowerProfile($followerId)
+        // {
+        //     $follower = User::findOrFail($followerId);
+
+        //     if (!$follower) {
+        //         return response()->json(['error' => 'Follower not found'], 404);
+        //     }
+        //     return redirect()->route('profile.show', ['id' => $follower->id]);
+        // }
+
+        public function showFollowerProfile($id)
+        {
+            $follower = User::findOrFail($id);
+
+            return view('profile.show', ['user' => $follower]);
+        }
+
+
 }

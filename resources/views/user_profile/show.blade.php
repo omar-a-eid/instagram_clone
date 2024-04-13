@@ -245,62 +245,71 @@
                             @endif
                         </a>
                     </div>
+                    
 
-
-
-                    <!-- Modal For Removing And Updating Photo -->
-                    <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="photoModalLabel">Change Profile Photo</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body d-flex flex-column align-items-center px-0"
-                                    style="height: 15vh;">
-                                    <form id="updatePhotoForm" action="{{ route('profileEdit.edit', $user->id) }}"
-                                        method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="mb-3">
-                                            <label for="profilePhotoInput" class="text-primary cursor-pointer">Upload
-                                                Photo</label>
-                                            <input id="profilePhotoInput" name="image" type="file"
-                                                accept="image/*" style="display: none;"
-                                                onchange="document.getElementById('updatePhotoForm').submit();">
-                                        </div>
-                                    </form>
-                                    @if ($user->image)
-                                        <hr class="w-100 mb-3">
-                                        <form id="removePhotoForm"
-                                            action="{{ route('editPhoto.destroy', $user->id) }}" method="POST">
+                    @if (auth()->check() && auth()->user()->id === $user->id)
+                        <!-- Modal For Removing And Updating Photo -->
+                        <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="photoModalLabel">Change Profile Photo</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body d-flex flex-column align-items-center px-0" style="height: 15vh;">
+                                        <form id="updatePhotoForm" action="{{ route('profileEdit.edit', $user->id) }}" method="POST" enctype="multipart/form-data">
                                             @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="remove_photo" value="true">
-                                            <label for="removePhotoCheckbox" class="text-danger cursor-pointer"
-                                                onclick="document.getElementById('removePhotoForm').submit();">Remove
-                                                Profile Photo</label>
+                                            @method('PUT')
+                                            <div class="mb-3">
+                                                <label for="profilePhotoInput" class="text-primary cursor-pointer">Upload Photo</label>
+                                                <input id="profilePhotoInput" name="image" type="file" accept="image/*" style="display: none;" onchange="document.getElementById('updatePhotoForm').submit();">
+                                            </div>
                                         </form>
-                                    @endif
+                                        @if ($user->image)
+                                            <hr class="w-100 mb-3">
+                                            <form id="removePhotoForm" action="{{ route('editPhoto.destroy', $user->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" name="remove_photo" value="true">
+                                                <label for="removePhotoCheckbox" class="text-danger cursor-pointer" onclick="document.getElementById('removePhotoForm').submit();">Remove Profile Photo</label>
+                                            </form>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {{-- End of Modal --}}
+                        {{-- End of Modal --}}
+                    @endif
 
 
 
 
                     {{-- user account details --}}
                     <div class="info">
-                        <div>
+                        <!-- <div>
                             <p class="name">
                                 {{ $user->name }}
                                 <a href="{{ route('profileEdit.edit', $user->id) }}"
                                     class="btn btn-secondary edit_profile">Edit
                                     Profile</a>
+                            </p>
+                            
+                        </div> -->
+                        <div>
+                            <p class="name">
+                                {{ $user->name }}
+                                @auth
+                                @if (auth()->user()->isFollowing($user))
+                                        <a href="#" class="btn btn-secondary">Following</a>
+                                    @elseif ($user->isFollowing(auth()->user()))
+                                        <form action="{{ route('follow', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary">Follow Back</button>
+                                        </form>
+                                    @else
+                                            <a href="{{ route('profileEdit.edit', $user->id) }}" class="btn btn-secondary edit_profile">Edit Profile</a>
+                                    @endif
+                                @endauth
                             </p>
                         </div>
                         <div class="general_info">
@@ -352,30 +361,32 @@
                                                     class="form-control search-input" placeholder="Search">
                                             </div>
                                         </form>
-
                                         <ul id="followersList">
                                             @foreach ($user->followers as $follower)
-                                                <li class="follower-container">
-                                                    <span>{{ $follower->name }}</span>
-                                                    @if (auth()->user()->isFollowing($follower))
-                                                        <form action="{{ route('removeFollower', $follower->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit"
-                                                                class="btn btn-danger">Remove</button>
-                                                        </form>
-                                                    @else
-                                                        <form action="{{ route('follow', $follower->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="btn btn-primary">Follow</button>
-                                                        </form>
-                                                    @endif
-                                                </li>
+                                                <a href="{{ route('profile.show', ['id' => $follower->id]) }}">
+                                                    <li class="follower-container">
+                                                        <span>{{ $follower->name }}</span>
+                                                        @auth
+                                                            @if (auth()->user()->id == $user->id)
+                                                                @if (auth()->user()->isFollowing($follower))
+                                                                    <form action="{{ route('removeFollower', $follower->id) }}" method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-danger">Remove</button>
+                                                                    </form>
+                                                                @else
+                                                                    <form action="{{ route('follow', $follower->id) }}" method="POST">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn btn-primary">Follow</button>
+                                                                    </form>
+                                                                @endif
+                                                            @endif
+                                                        @endauth
+                                                    </li>
+                                                </a>    
                                             @endforeach
                                         </ul>
+
                                         <p id="noResultsMessageFollowers" class="text-center" style="display: none;">
                                             No
                                             results found.</p>
@@ -409,20 +420,25 @@
 
                                         <ul class="followingsList">
                                             @foreach ($user->following as $followedUser)
-                                                <li class="following-container ">
-                                                    <span>{{ $followedUser->name }}</span>
-                                                    @if (auth()->user()->isFollowing($followedUser))
-                                                        <form action="{{ route('unfollow', $followedUser->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit"
-                                                                class="btn btn-danger btn-sm">Unfollow</button>
-                                                        </form>
-                                                    @endif
-                                                </li>
+                                                <a href="{{ route('profile.show', ['id' => $followedUser->id]) }}">
+                                                    <li class="following-container">
+                                                        <span>{{ $followedUser->name }}</span>
+                                                        @auth
+                                                            @if (auth()->user()->id == $user->id)
+                                                                @if (auth()->user()->isFollowing($followedUser))
+                                                                    <form action="{{ route('unfollow', $followedUser->id) }}" method="POST">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-danger btn-sm">Unfollow</button>
+                                                                    </form>
+                                                                @endif
+                                                            @endif
+                                                        @endauth
+                                                    </li>
+                                                </a>    
                                             @endforeach
                                         </ul>
+
                                         <p id="noResultsMessageFollowings" class="text-center"
                                             style="display: none;">No
                                             results found.</p>

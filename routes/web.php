@@ -50,6 +50,8 @@ Route::delete('/removeFollower/{id}', [UserProfileController::class, 'removeFoll
 Route::post('/profile/{followerId}/follow', [UserProfileController::class, 'follow'])->name('follow');
 Route::delete('/profile/{id}/photo', [UserProfileController::class, 'destroy'])->name('editPhoto.destroy');
 Route::put('/profile/{id}/edit', [UserProfileController::class, 'updateImage'])->name('profileEdit.edit');
+Route::get('/profile/follower/{followerId}', [UserProfileController::class, 'showFollowerProfile'])->name('profile.showFollower');
+
 
 
 
