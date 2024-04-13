@@ -84,8 +84,8 @@
 
         <aside class="lg:col-span-4 hidden lg:block p-4">
             <div class="flex items-center gap-2">
-                <x-avatar src="https://source.unsplash.com/500x500?face" class="w-12 h-12" />
-                <h4 class="font-medium">{{ fake()->name }}</h4>
+                <x-avatar src="{{ asset('storage/' . auth()->user()->image) }}" class="w-12 h-12" />
+                <h4 class="font-medium">{{ auth()->user()->name }}</h4>
             </div>
             {{-- Follow Suggestion --}}
             <section class="mt-4">
