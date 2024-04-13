@@ -24,9 +24,8 @@ use App\Livewire\TagController;
 
 // Route::get('/', Home::class)->middleware('auth');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/', Home::class)->name("Home");
@@ -35,22 +34,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/explore', Explore::class)->name("explore");
     Route::get('/explore/tag/{name}', TagController::class)->name("tag.show");
+    Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('profileEdit.edit');
+    Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profileUpdate.update');
+    Route::post('/profile', [UserProfileController::class, 'store'])->name('profileStore.store');
+    // Route::get('/profile/{userId}', [ProfilePosts::class, '__invoke'])->name('profile.posts');
+    
+    Route::get('/profile/{id}/followers', [UserProfileController::class, 'followers'])->name('profileFollowers.followers');
+    Route::get('/profile/{id}/followings', [UserProfileController::class, 'followings'])->name('profileFollowers.followings');
+    Route::delete('/unfollow/{id}', [UserProfileController::class, 'unfollow'])->name('unfollow');
+    Route::delete('/removeFollower/{id}', [UserProfileController::class, 'removeFollower'])->name('removeFollower');
+    Route::post('/profile/{followerId}/follow', [UserProfileController::class, 'follow'])->name('follow');
+    Route::delete('/profile/{id}/photo', [UserProfileController::class, 'destroy'])->name('editPhoto.destroy');
+    Route::put('/profile/{id}/edit', [UserProfileController::class, 'updateImage'])->name('profileEdit.edit');
+    Route::get('/profile/follower/{followerId}', [UserProfileController::class, 'showFollowerProfile'])->name('profile.showFollower');
 });
 
-Route::get('/profile/{id}', [UserProfileController::class, 'show'])->name('profile.show');
-Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('profileEdit.edit');
-Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profileUpdate.update');
-Route::post('/profile', [UserProfileController::class, 'store'])->name('profileStore.store');
-// Route::get('/profile/{userId}', [ProfilePosts::class, '__invoke'])->name('profile.posts');
-
-Route::get('/profile/{id}/followers', [UserProfileController::class, 'followers'])->name('profileFollowers.followers');
-Route::get('/profile/{id}/followings', [UserProfileController::class, 'followings'])->name('profileFollowers.followings');
-Route::delete('/unfollow/{id}', [UserProfileController::class, 'unfollow'])->name('unfollow');
-Route::delete('/removeFollower/{id}', [UserProfileController::class, 'removeFollower'])->name('removeFollower');
-Route::post('/profile/{followerId}/follow', [UserProfileController::class, 'follow'])->name('follow');
-Route::delete('/profile/{id}/photo', [UserProfileController::class, 'destroy'])->name('editPhoto.destroy');
-Route::put('/profile/{id}/edit', [UserProfileController::class, 'updateImage'])->name('profileEdit.edit');
-Route::get('/profile/follower/{followerId}', [UserProfileController::class, 'showFollowerProfile'])->name('profile.showFollower');
 
 
 
