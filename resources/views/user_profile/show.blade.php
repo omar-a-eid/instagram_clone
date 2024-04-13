@@ -323,6 +323,10 @@
                             <br>
                         </p>
                         <p class="desc">
+                            {{ $user->gender }}
+                            <br>
+                        </p>
+                        <p class="desc">
                             <a href="{{ $user->website }}" target="_blank"
                                 style="text-decoration: none; color: blue;">{{ $user->website }}</a>
                             <br>
