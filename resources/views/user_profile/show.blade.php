@@ -7,16 +7,17 @@
                 <div class="cart">
 
                     {{-- user Image --}}
-                    <div class="img" onclick="photoModal.showModal()">
-                        <a href="#" id="profileImageLink">
+                    <div class="img {{ auth()->check() && auth()->user()->id === $user->id ? 'cursor-pointer' : '' }}"
+                        onclick="photoModal.showModal()">
+                        <div id="profileImageLink">
                             @if (!$user->image)
                                 <img src="{{ asset('assets/images/avatar.jpeg') }}" alt="Avatar" id="profileImage"
                                     class="circle-image rounded-circle">
                             @else
-                                <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="Profile Photo"
-                                    id="profileImage" class="circle-image rounded-circle">
+                                <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Photo" id="profileImage"
+                                    class="circle-image rounded-circle">
                             @endif
-                        </a>
+                        </div>
                     </div>
 
 
@@ -83,6 +84,11 @@
                                         <form action="{{ route('follow', $user->id) }}" method="POST">
                                             @csrf
                                             <button type="submit" class="btn btn-primary">Follow Back</button>
+                                        </form>
+                                    @elseif(auth()->user()->id != $user->id)
+                                        <form action="{{ route('follow', $user->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary">Follow</button>
                                         </form>
                                     @else
                                         <a href="{{ route('profileEdit.edit', $user->id) }}" class="btn edit_profile">Edit
@@ -152,24 +158,31 @@
                                                     <li class="follower-container">
                                                         <span>{{ $follower->name }}</span>
                                                         @auth
-                                                            @if (auth()->user()->id == $user->id)
-                                                                @if (auth()->user()->isFollowing($follower))
-                                                                    <form
-                                                                        action="{{ route('removeFollower', $follower->id) }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit"
-                                                                            class="btn btn-danger">Remove</button>
-                                                                    </form>
-                                                                @else
-                                                                    <form action="{{ route('follow', $follower->id) }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-primary">Follow</button>
-                                                                    </form>
-                                                                @endif
+                                                            @if (auth()->user()->id != $user->id && auth()->user()->isFollowing($follower))
+                                                                <form
+                                                                    action="{{ route('removeFollower', $follower->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger">Unfollow</button>
+                                                                </form>
+                                                            @elseif (auth()->user()->isFollowing($follower))
+                                                                <form
+                                                                    action="{{ route('removeFollower', $follower->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger">Remove</button>
+                                                                </form>
+                                                            @else
+                                                                <form action="{{ route('follow', $follower->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Follow</button>
+                                                                </form>
                                                             @endif
                                                         @endauth
                                                     </li>
@@ -218,17 +231,21 @@
                                                     <li class="following-container">
                                                         <span>{{ $followedUser->name }}</span>
                                                         @auth
-                                                            @if (auth()->user()->id == $user->id)
-                                                                @if (auth()->user()->isFollowing($followedUser))
-                                                                    <form
-                                                                        action="{{ route('unfollow', $followedUser->id) }}"
-                                                                        method="POST">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit"
-                                                                            class="btn btn-danger btn-sm">Unfollow</button>
-                                                                    </form>
-                                                                @endif
+                                                            @if (auth()->user()->isFollowing($followedUser))
+                                                                <form action="{{ route('unfollow', $followedUser->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="btn btn-danger btn-sm">Unfollow</button>
+                                                                </form>
+                                                            @else
+                                                                <form action="{{ route('follow', $follower->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">Follow</button>
+                                                                </form>
                                                             @endif
                                                         @endauth
                                                     </li>
