@@ -6,7 +6,8 @@
         <x-avatar src="{{ asset('storage/' . $post->user->image) }}" class="h-9 w-9" />
         <div class="grid grid-cols-7 w-full gap-2">
             <div class="col-span-5">
-                <h5 class="font-semibold truncate text-sm">{{ $post->user->name }}</h5>
+                <a href="{{ route('profile.show', ['id' => $post->user->id]) }}"
+                    class="font-semibold truncate text-sm">{{ $post->user->name }}</a>
             </div>
             <div class="col-span-2 flex text-right justify-end">
                 <button class="text-gray-500 ml-auto">
@@ -196,7 +197,8 @@
             {{-- view post modal --}}
             <button
                 onclick="Livewire.dispatch('openModal',{component:'post.view.modal',arguments:{'post':{{ $post->id }}}})"
-                class="text-slate-500/90 text-sm font-medium"> View All {{ $post->comments->count() }} comments</button>
+                class="text-slate-500/90 text-sm font-medium"> View All {{ $post->comments->count() }}
+                comments</button>
 
             @auth
                 {{-- show comments for auth --}}

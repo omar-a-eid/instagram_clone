@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-profile-layout>
     {{-- <x-slot name="header">
     </x-slot> --}}
 
@@ -240,7 +240,7 @@
                                 <img src="{{ asset('assets/images/avatar.jpeg') }}" alt="Avatar" id="profileImage"
                                     class="circle-image rounded-circle">
                             @else
-                                <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Photo"
+                                <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="Profile Photo"
                                     id="profileImage" class="circle-image rounded-circle">
                             @endif
                         </a>
@@ -535,4 +535,4 @@
 
 
     <script src="{{ asset('assets/js/showProfile.js') }}" defer></script>
-</x-app-layout>
+</x-profile-layout>
