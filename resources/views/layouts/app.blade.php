@@ -6,25 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <style>
-        [x-cloak] {
-            display: none !important;
-        }
-    </style>
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/userProfile.css'])
+        <style>
+            [x-cloak] {
+                display: none !important;
+            }
+        </style>
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/userProfile.css'])
 
 
-</head>
+    </head>
 
 <body class="font-sans antialiased">
 
@@ -32,19 +35,17 @@
         <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content items-center justify-center">
             <!-- Page content here -->
+            {{-- <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Open drawer</label> --}}
             {{ $slot }}
         </div>
-        <div class="drawer-side overflow-visible z-10">
+        <div class="drawer-side overflow-visible z-10" style="overflow: visible;">
             <label for="my-drawer-2" class="drawer-overlay"></label>
 
-            @include('layouts.sidebar')
-
+            {{-- @include('layouts.sidebar') --}}
+            <livewire:components.sidebar />
         </div>
     </div>
-
-
     @livewire('wire-elements-modal')
-
 </body>
 
 </html>
