@@ -13,8 +13,17 @@
                 <p class="text-l">Posts</p>
             </div>
             <div>
-                <button
-                    class="bg-blue-400 hover:bg-blue-600 w-full text-white font-bold text-ms p-1 rounded">Follow</button>
+                <form action="{{ route('tag.follow', $tag->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-blue-400 hover:bg-blue-600 w-full text-white font-bold text-ms p-1 rounded">
+                        @if (auth()->user()->isFollowingTag($tag))
+                        UnFollow
+                        @else
+                        Follow
+                        @endif
+                    </button>
+                </form>
+               
             </div>
         </div>
     </div>
