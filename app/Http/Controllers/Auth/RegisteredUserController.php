@@ -18,31 +18,36 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-
-     public function create(){
-        return view('Auth.register');
+    public function create(): View
+    {
+        return view('auth.register');
     }
 
-    public function store(Request $request){
+    /**
+     * Handle an incoming registration request.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request): RedirectResponse
+    {
 
-    $request->validate([
-            'name' => 'required|string|max:100',
-            'username' => 'required|string',
-            'email' => 'required|email|max:100',
-            'password' => 'required|string|min:6|max:40',
-    ]);
+        $request->validate([
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:' . User::class],
+            'password' => ['required', Rules\Password::defaults()],
+        ]);
 
-    
-        $user=User::create([
+        $user = User::create([
+            'email' => $request->email,
             'name' => $request->name,
             'username' => $request->username,
-            'email' => $request->email,
-            'password' =>Hash:: make ($request->password),
+            'password' => Hash::make($request->password),
         ]);
-    
+
+        event(new Registered($user));
         Auth::login($user);
-        
-        return redirect(route('login'));
+
+        return redirect(RouteServiceProvider::HOME);
     }
 }
-

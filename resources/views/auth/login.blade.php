@@ -1,105 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram</title> 
-    <link rel="stylesheet" href="./public/sass/vender/bootstrap.css">
-    <link rel="stylesheet" href="./public/sass/vender/bootstrap.min.css">
-    
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> 
-    <link rel="stylesheet" href="./sass/main.css">
-    <style>
-    .custom-error-style {
-    /* Add your custom styles for the error message here */
-    background-color: #ffcccc;
-    color: #cc0000;
-    padding: 4px;
-    border-radius: 5px;
-    border: 1px solid #cc0000;
-    margin-top: 10px;
-}
-</style>
+    <title>Instagram</title>
+    <link rel="stylesheet" href="{{ asset('sass/vender/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('sass/vender/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('sass/main.css') }}">
 </head>
+
 <body>
     <div class="container">
         <div class="login">
             <div class="images d-none d-lg-block">
                 <div class="frame">
-                    <img src="images/home-phones.png" alt="picutre frame">
+                    <img src="{{ asset('images/home-phones.png') }}" alt="picture frame">
                 </div>
                 <div class="sliders">
                     <div id="carouselExampleSlidesOnly" class="carousel slide carousel-fade" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                          <div class="carousel-item active">
-                            <img src="./images/screenshot1.png" class="d-block" alt="screenshot1">
-                          </div>
+                            <div class="carousel-item active">
+                                <img src="{{ asset('images/screenshot1.png') }}" class="d-block" alt="screenshot1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('images/screenshot2.png') }}" class="d-block" alt="screenshot2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('images/screenshot3.png') }}" class="d-block" alt="screenshot3">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{{ asset('images/screenshot4.png') }}" class="d-block" alt="screenshot4">
+                            </div>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </div>
             <div class="content">
                 <div class="log-on border_insc">
                     <div class="logo">
-                        <img src="./images/logo.png" alt="Instagram logo">
+                        <img src="{{ asset('images/logo.png') }}" alt="Instagram logo">
                     </div>
-               
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <div class="form-group">
-                
-                <input type="email" name="email" class="form-control  " id="email" required placeholder="Email">
-               
-            </div>
-            <div class="form-group">
-             
-                <input type="password" name="password" class="form-control" id="password" required placeholder="Password">
-              
-                @error('password')
-                <div class="alert alert-danger custom-error-style">{{ $message }}</div>
-                @enderror
-            </div>
-            <a href="./home.html">
-                <button class="log_btn">
-                    Log in
-                </button>
-            </a>
-            <div class="other-ways">
-                <div class="seperator">
-                    <span class="ligne"></span>
-                    <span class="ou">OR</span>
-                    <span class="ligne"></span>
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div>
+                            <input type="email" name="email" id="email" placeholder="Email">
+                            <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-500 text-sm" />
+                        </div>
+                        <div>
+                            <input type="password" name="password" id="password" placeholder="Password">
+                            <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-500 text-sm" />
+                        </div>
+                        <button type="submit" class="log_btn">Log in</button>
+                    </form>
+                    <div class="other-ways">
+                        <div class="seperator">
+                            <span class="ligne"></span>
+                            <span class="ou">OR</span>
+                            <span class="ligne"></span>
+                        </div>
+                        <div class="facebook-connection">
+                            <a href="#">
+                                <img src="{{ asset('images/facebook.png') }}" alt="facebook icon">
+                                Log in with Facebook
+                            </a>
+                        </div>
+                        <div class="forget-password">
+                            @if (Route::has('password.request'))
+                                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    href="{{ route('password.request') }}">
+                                    {{ __('Forgot your password?') }}
+                                </a>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-                <div class="forget-password">
-                    <a href="{{route('password.request')}}">
-                        Forgot password?
-                    </a>
+                <div class="sing-up border_insc">
+                    <p>
+                        Don't have an account?
+                        <a href="{{ route('register') }}">Sign up</a>
+                    </p>
                 </div>
-            </div>
-        </div>
-          
-        </form>
-        <div class="download">
-            <p>Get the app.</p>
-
-            <div>
-                <img src="./images/google_play_icon.png" alt="download app from google play">
-                <img src="./images/microsoft-icon.png" alt="download app from microsoft">
+                <div class="download">
+                    <p>Get the app.</p>
+                    <div>
+                        <img src="{{ asset('images/google_play_icon.png') }}" alt="download app from google play">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-
-                   
-                
-            </div>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
-       
-   
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+        integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+        integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous">
+    </script>
 </body>
+
 </html>
