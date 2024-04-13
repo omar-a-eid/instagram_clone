@@ -22,7 +22,6 @@
     </style>
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/userProfile.css'])
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-rc99w3XoBfS5PwKbIOWjFCcgo4xRTu/ZoS6Kvj2+Ew0=" crossorigin="anonymous"></script>
 
 
 </head>
