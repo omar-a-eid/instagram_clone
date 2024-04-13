@@ -14,6 +14,8 @@ use Overtrue\LaravelLike\Traits\Liker;
 use Overtrue\LaravelFavorite\Traits\Favoriter;
 use Overtrue\LaravelFollow\Traits\Follower;
 use Overtrue\LaravelFollow\Traits\Followable;
+use Overtrue\LaravelFollow\Traits\CanBeFollowed;
+use Overtrue\LaravelFollow\Traits\CanFollow;
 
 
 use App\Notifications\ResetPasswordNotification;
@@ -25,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Favoriter;
     use Follower;
     use Followable;
+    // use CanBeFollowed;
 
     /**
      * The attributes that are mass assignable.
@@ -109,6 +112,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->following()->where('id', $user->id)->exists();
     }
+
+    public function isFollowingTag($tagId)
+{
+    return $this->following()->where('id', $tagId)->exists();
+}
 
     public function hasPosts($user)
     {

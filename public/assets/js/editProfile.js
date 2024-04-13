@@ -13,13 +13,16 @@ $(document).ready(function () {
     });
 });
 
+
 function saveGender() {
-    var selectedGender = document.querySelector(
-        'input[name="gender"]:checked'
-    ).value;
+    var selectedGender = document.querySelector('input[name="gender"]:checked').value;
     document.getElementById("genderButton").value = selectedGender;
-    $("#genderModal").modal("hide");
+  
+    var myModal = document.getElementById("genderModal")
+
+    myModal.style.display = "none";
 }
+
 
 function displaySelectedPhoto() {
     const fileInput = document.getElementById("profilePhotoInput");

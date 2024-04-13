@@ -56,9 +56,9 @@
                     <div class="flex items-center">
                         <div class="w-20 h-20 mr-5">
                             @if ($user->image)
-                                <img id="profileImage" width="200px"
-                                    src="{{ Storage::disk('public')->url($user->image) }}" alt="Profile Photo"
-                                    class="highlighted-image rounded-full">
+                            <img src="{{ asset('storage/' . auth()->user()->image) }}" class=" w-7 h-7 shrink-0 x" style="border-radius: 50%;width: 100%;
+                                height: 100%;" />
+
                             @else
                                 <img id="profileImage" src="{{ asset('assets/images/avatar.jpeg') }}"
                                     alt="Profile Photo" class="highlighted-image rounded-full">
@@ -115,23 +115,27 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="female"
+                            <input class="form-check-input colored-background" type="radio" name="gender" id="female"
                                 value="Female">
                             <label class="form-check-label" for="female">
                                 Female
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="male"
+                            <input class="form-check-input colored-background" type="radio" name="gender" id="male"
                                 value="Male">
                             <label class="form-check-label" for="male">
                                 Male
                             </label>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    {{-- <div class="modal-footer">
                         <button type="button" class="btn btn-primary w-full" onclick="saveGender()">Done</button>
+                    </div> --}}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary w-full" data-bs-dismiss="modal" onclick="saveGender()">Done</button>
                     </div>
+                    
                 </div>
             </div>
             <form method="dialog" class="modal-backdrop">
