@@ -169,7 +169,8 @@
 
         {{-- name and comment --}}
         <div class="flex text-sm gap-2 font-medium">
-            <p> <strong class="font-bold">{{ $post->user->name }}</strong>
+            <p><strong class="font-bold"><a href="{{ route('profile.show', ['id' => $post->user->id]) }}">
+                        {{ $post->user->name }} </a> </strong>
                 @php
                     $txt = '';
                     $words = explode(' ', $post->description);
@@ -203,7 +204,7 @@
             @auth
                 {{-- show comments for auth --}}
                 <ul class="my-2">
-                    @foreach ($post->comments()->where('user_id', auth()->id())->get() as $comment)
+                    @foreach ($post->comments()->where('user_id', auth()->id())->take(3)->get() as $comment)
                         <li class="grid grid-cols-12 text-sm items-center">
 
                             <span class="font-bold col-span-3 mb-auto">{{ auth()->user()->name }}</span>
