@@ -19,6 +19,7 @@ use Overtrue\LaravelFollow\Traits\CanFollow;
 
 
 use App\Notifications\ResetPasswordNotification;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -76,7 +77,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Comment::class);
     }
     
+    public function followedTags() : BelongsToMany {
+        return $this->belongsToMany(Tag::class, 'tags_followers');
+    }
 
+    public function isFollowingTag(Tag $tag) : bool {
+        return $this->whereHas('followedTags', function ($query) use ($tag) {
+            $query->where('tags.id', $tag->id);
+        })->count() > 0;
+    }
 
     /* Methods handling relation between followers table and users table*/
 
@@ -111,11 +120,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isFollowing($user)
     {
         return $this->following()->where('id', $user->id)->exists();
-    }
-
-    public function isFollowingTag($tagId)
-    {
-    return $this->following()->where('id', $tagId)->exists();   
     }
 
     public function hasPosts($user)
