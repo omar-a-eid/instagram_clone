@@ -58,6 +58,7 @@
                             @if ($user->image)
                             <img src="{{ asset('storage/' . auth()->user()->image) }}" class=" w-7 h-7 shrink-0 x" style="border-radius: 50%;width: 100%;
                                 height: 100%;" />
+                                
 
                             @else
                                 <img id="profileImage" src="{{ asset('assets/images/avatar.jpeg') }}"
