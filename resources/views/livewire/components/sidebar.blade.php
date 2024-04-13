@@ -312,11 +312,10 @@
                                 <li>
                                     <a href="{{ route('profile.show', ['id' => $user->id]) }}"
                                         class="flex gap-2 truncate items-center">
-                                        <x-avatar wire:ignore class="w-9 h-9 mb-auto"
-                                            src="https://source.unsplash.com/500x500?face-{{ $key }}" />
+                                        <img class="w-9 h-9 mb-auto rounded-full"
+                                            src="{{ asset('storage/' . $user->image) }}" />
                                         <div class="flex flex-col">
                                             <span class="font-bold text-sm">{{ $user->username }}</span>
-                                            <span class="font-normal text-xs truncate">{{ fake()->sentence() }}</span>
                                         </div>
                                     </a>
                                 </li>
