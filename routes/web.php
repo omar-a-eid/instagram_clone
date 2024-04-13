@@ -52,6 +52,8 @@ Route::delete('/profile/{id}/photo', [UserProfileController::class, 'destroy'])-
 Route::put('/profile/{id}/edit', [UserProfileController::class, 'updateImage'])->name('profileEdit.edit');
 
 
-
+Route::fallback(function () {
+    return redirect('/');
+});
 
 require __DIR__ . '/auth.php';
