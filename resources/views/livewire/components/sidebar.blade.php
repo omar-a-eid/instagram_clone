@@ -73,7 +73,7 @@
         </li>
 
 
-        <li><a wire:navigate href="" class="flex items-center gap-5">
+        <li><a wire:navigate href="{{ route('explore') }}" class="flex items-center gap-5">
 
                 <span>
 
@@ -213,13 +213,14 @@
         {{-- @auth --}}
 
         <li>
-            <a wire:navigate href="" class="flex items-center gap-5">
+            <a wire:navigate href="{{ route('profile.show', ['id' => auth()->user()->id]) }}"
+                class="flex items-center gap-5">
 
 
-                <x-avatar src="" class=" w-7 h-7 shrink-0" />
+                <x-avatar src="{{ asset('storage/' . auth()->user()->image) }}" class=" w-7 h-7 shrink-0" />
 
                 <h4 x-cloak x-show="!(shrink||drawer)"
-                    class=" text-lg  {{ request()->routeIs('profile.home') ? 'font-bold' : 'font-medium' }} ">Profile
+                    class=" text-lg  {{ request()->routeIs('profile.show') ? 'font-bold' : 'font-medium' }} ">Profile
                 </h4>
             </a>
         </li>
