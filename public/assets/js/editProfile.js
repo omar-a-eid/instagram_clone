@@ -17,10 +17,10 @@ $(document).ready(function () {
 function saveGender() {
     var selectedGender = document.querySelector('input[name="gender"]:checked').value;
     document.getElementById("genderButton").value = selectedGender;
-  
-    var myModal = document.getElementById("genderModal")
 
+    var myModal = document.getElementById("genderModal")
     myModal.style.display = "none";
+
 }
 
 

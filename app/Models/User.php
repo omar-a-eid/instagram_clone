@@ -114,9 +114,9 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function isFollowingTag($tagId)
-{
-    return $this->following()->where('id', $tagId)->exists();
-}
+    {
+    return $this->following()->where('id', $tagId)->exists();   
+    }
 
     public function hasPosts($user)
     {

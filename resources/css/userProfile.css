@@ -317,8 +317,6 @@
     width: fit-content!important;
 }
 
-
-
 [type="radio"]:not(.colored-background):checked{
     background: none!important;
     border-top: 2px solid #1f2937!important;
