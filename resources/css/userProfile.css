@@ -1,7 +1,7 @@
 .profile_container {
     padding: 60px 10px 0;
     /* margin: auto; */
-    max-width: 700px;
+    max-width: 800px;
 }
 @media screen and (max-width: 991px) {
     .profile_container {
@@ -48,7 +48,6 @@
 }
 .profile_container .profile_info .info p {
     font-weight: 400;
-    margin: 0;
 }
 .profile_container .profile_info .info p.name {
     display: flex;
@@ -72,7 +71,7 @@
 .profile_container .profile_info .info .general_info {
     display: flex;
     justify-content: flex-start;
-    margin: 15px 0;
+    margin-top: 15px;
 }
 
 @media screen and (max-width: 498px) {
@@ -147,29 +146,7 @@
     border-radius: 0px;
     color: black;
 }
-.profile_container .posts_profile .post {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-}
-@media screen and (max-width: 991px) {
-    .profile_container .posts_profile .post {
-        gap: 5px;
-    }
-}
-.profile_container .posts_profile .post .item {
-    width: auto;
-}
-.profile_container .posts_profile .post .item .item_img {
-    max-width: 250px;
-    max-height: 250px;
-}
-@media screen and (max-width: 768px) {
-    .profile_container .posts_profile .post .item .item_img {
-        max-width: 200px;
-        max-height: 200px;
-    }
-}
+
 
 /* Profile and Edit Profile */
 .circle-image {
@@ -185,10 +162,10 @@
     border-radius: 50%;
 }
 
-.btn {
+/* .btn {
     width: 105px;
     margin-left: 20px;
-}
+} */
 
 .tableContainer {
     width: 80%;
@@ -282,7 +259,7 @@
 /* Adjustments for the profile container */
 .profile_container {
     /* Add margin to create space between the sidebar and profile container */
-    margin-left: 250px;
+    margin: 0 auto;
     /* Add padding to the profile container */
     padding: 20px;
     /* Add box-sizing to include padding in width calculation */
@@ -301,6 +278,7 @@
 .wrapper {
     display: flex;
     height: 100vh; /* Take up the full height of the viewport */
+    overflow: scroll;
 }
 
 @media screen and (max-width: 991px) {
@@ -316,4 +294,55 @@
         max-width: 95%; /* Adjust max-width for smaller screens */
         padding-top: 20px; /* Adjust padding for smaller screens */
     }
+}
+
+
+.tabs-container {
+    grid-template-columns: 1fr 30px 30px 30px  1fr;
+    grid-template-rows: auto 1fr; 
+    column-gap: 30px;
+    justify-content: center;
+    grid-template-areas:
+    "headerrrr header1 header2 header3 headerr "
+    "body body body body body";
+}
+
+.tabs-container > * {
+    grid-column: span 1; 
+}
+
+.post, .tagged, .saved {
+    border: none!important;
+    border-radius: 0!important;
+    width: fit-content!important;
+}
+[type="radio"]:checked  {
+    background: none!important;
+    border-top: 2px solid #1f2937!important;
+    font-weight: bold;
+}
+
+[type="radio"]:focus{
+    outline: none!important;
+    border: none!important;
+    box-shadow: none!important;
+}
+
+.post {
+    grid-area: header1;
+    justify-self: right;
+}
+
+.saved {
+    grid-area: header2;
+    justify-self: center;
+}
+.tagged {
+    grid-area: header3;
+    justify-self: left;
+}
+
+.tab-content {
+    grid-area: body;
+    width: 100%;
 }

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Post;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 
 class Explore extends Component 
 {
@@ -18,7 +19,8 @@ class Explore extends Component
   
   public function render() 
   {
-      $posts = Post::limit(20)->get();
+      $loggedInUserId = Auth::user()->id;
+      $posts = Post::where('user_id', '!=', $loggedInUserId)->limit(20)->get();
       return view("livewire.explore", ['posts' => $posts]);
   }
 }

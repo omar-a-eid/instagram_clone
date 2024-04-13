@@ -51,8 +51,8 @@
         <aside class="lg:col-span-5 h-full border-l p-3 flex gap-4 flex-col overflow-hidden overflow-y-scroll">
             {{-- Author --}}
             <div class="flex items-center gap-2">
-                <x-avatar class="w-9 h-9" />
-                <h5 class="font-bold">{{ fake()->name() }} </h5>
+                <x-avatar src="{{ asset('storage/' . auth()->user()->image) }}" class="w-9 h-9" />
+                <h5 class="font-bold">{{ auth()->user()->name }} </h5>
             </div>
             <div>
                 <textarea wire:model="description" {{-- wire:keydown="checkTags" --}} placeholder="Add a caption"
@@ -94,5 +94,13 @@
                 </ul>
             </div>
         </aside>
+
+        <!-- Blade View -->
+        @if (session('error'))
+            <div id="error-message"
+                class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded absolute left-1/2 transform -translate-x-1/2 transition-opacity duration-500 ease-in-out">
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
     </main>
 </div>

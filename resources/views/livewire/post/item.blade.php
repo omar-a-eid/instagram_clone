@@ -3,10 +3,11 @@
     {{-- header --}}
 
     <header class="flex items-center gap-3">
-        <x-avatar src="https://source.unsplash.com/500x500?face" class="h-9 w-9" />
+        <x-avatar src="{{ asset('storage/' . $post->user->image) }}" class="h-9 w-9" />
         <div class="grid grid-cols-7 w-full gap-2">
             <div class="col-span-5">
-                <h5 class="font-semibold truncate text-sm">{{ $post->user->name }}</h5>
+                <a href="{{ route('profile.show', ['id' => $post->user->id]) }}"
+                    class="font-semibold truncate text-sm">{{ $post->user->name }}</a>
             </div>
             <div class="col-span-2 flex text-right justify-end">
                 <button class="text-gray-500 ml-auto">
@@ -168,7 +169,8 @@
 
         {{-- name and comment --}}
         <div class="flex text-sm gap-2 font-medium">
-            <p> <strong class="font-bold">{{ $post->user->name }}</strong>
+            <p><strong class="font-bold"><a href="{{ route('profile.show', ['id' => $post->user->id]) }}">
+                        {{ $post->user->name }} </a> </strong>
                 @php
                     $txt = '';
                     $words = explode(' ', $post->description);
@@ -196,12 +198,13 @@
             {{-- view post modal --}}
             <button
                 onclick="Livewire.dispatch('openModal',{component:'post.view.modal',arguments:{'post':{{ $post->id }}}})"
-                class="text-slate-500/90 text-sm font-medium"> View All {{ $post->comments->count() }} comments</button>
+                class="text-slate-500/90 text-sm font-medium"> View All {{ $post->comments->count() }}
+                comments</button>
 
             @auth
                 {{-- show comments for auth --}}
                 <ul class="my-2">
-                    @foreach ($post->comments()->where('user_id', auth()->id())->get() as $comment)
+                    @foreach ($post->comments()->where('user_id', auth()->id())->take(3)->get() as $comment)
                         <li class="grid grid-cols-12 text-sm items-center">
 
                             <span class="font-bold col-span-3 mb-auto">{{ auth()->user()->name }}</span>

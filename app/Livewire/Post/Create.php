@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
+use Illuminate\Support\Facades\Auth;
 
 
 class Create extends ModalComponent
@@ -27,55 +28,64 @@ class Create extends ModalComponent
 
 
     function submit()  {
-        #validate
-        $this->validate([
-            'media.*'=>'required|file|mimes:png,jpg,mp4,jpeg,mov|max:100000',
-            'allow_commenting'=>'boolean',
-            'hide_like_view'=>'boolean',
-        ]);
-        #determine if real or post
-        $type= $this->getPostType($this->media);
-        #create post
-        $post = Post::create([
-            'user_id'=>auth()->user()->id,
-            'description'=>$this->description,
-            'location'=>$this->location,
-            'allow_commenting'=>$this->allow_commenting,
-            'hide_like_view'=>$this->hide_like_view,
-            'type'=>$type
-        ]);
-
-
-        #check for tags 
-        $words = explode(' ', $this->description);
-        foreach ($words as $word) {
-            if (strpos($word, '#') === 0) {
-                $tagName = strtolower(substr($word, 1));
-                $tag = Tag::firstOrCreate(['name' => $tagName]);
-                $post->tags()->attach($tag);
+        try {
+            if(Auth::check() && Auth::user()->email_verified_at) {
+                #validate
+                $this->validate([
+                    'media.*'=>'required|file|mimes:png,jpg,mp4,jpeg,mov|max:100000',
+                    'allow_commenting'=>'boolean',
+                    'hide_like_view'=>'boolean',
+                ]);
+                #determine if real or post
+                $type= $this->getPostType($this->media);
+                #create post
+                $post = Post::create([
+                    'user_id'=>auth()->user()->id,
+                    'description'=>$this->description,
+                    'location'=>$this->location,
+                    'allow_commenting'=>$this->allow_commenting,
+                    'hide_like_view'=>$this->hide_like_view,
+                    'type'=>$type
+                ]);
+    
+    
+                #check for tags 
+                $words = explode(' ', $this->description);
+                foreach ($words as $word) {
+                    if (strpos($word, '#') === 0) {
+                        $tagName = strtolower(substr($word, 1));
+                        $tag = Tag::firstOrCreate(['name' => $tagName]);
+                        $post->tags()->attach($tag);
+                    }
+                }
+    
+    
+                #add media
+                foreach ($this->media as $key => $media) {
+                    #get mime type
+                    $mime = $this->getMime($media);
+                    #save to storage
+                    $path= $media->store('media','public');
+                    $url= url(Storage::url($path));
+                    #create media
+                    Media::create([
+                        'url'=>$url,
+                        'mime'=>$mime,
+                        'mediable_id'=>$post->id,
+                        'mediable_type'=>Post::class
+                    ]);
+                    $this->reset();
+                    $this->dispatch('close');
+                    #dispatch event for post created
+                    $this->dispatch('post-created',$post->id);
+                }
+            } else {
+               throw new \Exception("You need to verify your email");
             }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error',  $e->getMessage());
         }
 
-
-        #add media
-        foreach ($this->media as $key => $media) {
-            #get mime type
-            $mime = $this->getMime($media);
-            #save to storage
-            $path= $media->store('media','public');
-            $url= url(Storage::url($path));
-            #create media
-            Media::create([
-                'url'=>$url,
-                'mime'=>$mime,
-                'mediable_id'=>$post->id,
-                'mediable_type'=>Post::class
-            ]);
-            $this->reset();
-            $this->dispatch('close');
-            #dispatch event for post created
-            $this->dispatch('post-created',$post->id);
-        }
     }
 
 

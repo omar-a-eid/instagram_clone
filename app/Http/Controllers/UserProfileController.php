@@ -33,7 +33,7 @@ class UserProfileController extends Controller
                 Storage::disk('public')->delete($user->image);
             }
 
-            $imagePath = $request->file('image')->store('users', ['disk' => 'public']);
+           $imagePath = $request->file('image')->store('users', 'public');
             $user->image = $imagePath;
         }
 
@@ -48,9 +48,9 @@ class UserProfileController extends Controller
     public function show($id)
     {
         $singleUser = User::findorfail($id);
-        if ($singleUser->id != Auth::id()) {
-            abort(403, "you are not authorized");
-        }
+        // if ($singleUser->id != Auth::id()) {
+        //     abort(403, "you are not authorized");
+        // }
         return view('user_profile.show', ['user' => $singleUser]);
     }
 
@@ -217,15 +217,24 @@ class UserProfileController extends Controller
         return redirect()->back();
     }
 
-    // Remove the follower from the user's followers list
-    public function removeFollower($id)
-    {
-        $follower = User::findOrFail($id);
-        $user = auth()->user();
+        // Remove the follower from the user's followers list
+        public function removeFollower($id)
+        {
+            $follower = User::findOrFail($id);
+            $user = auth()->user();
+    
+    
+            $user->followers()->detach($follower->id);
+    
+            return redirect()->back();
+        }
+
+        public function showFollowerProfile($id)
+        {
+            $follower = User::findOrFail($id);
+
+            return view('profile.show', ['user' => $follower]);
+        }
 
 
-        $user->followers()->detach($follower->id);
-
-        return redirect()->back();
-    }
 }
