@@ -83,10 +83,10 @@
         {{-- Suggestion --}}
 
         <aside class="lg:col-span-4 hidden lg:block p-4">
-            <div class="flex items-center gap-2">
+            <a href="{{ route('profile.show', ['id' => auth()->user()->id]) }}" class="flex items-center gap-2">
                 <x-avatar src="{{ asset('storage/' . auth()->user()->image) }}" class="w-12 h-12" />
                 <h4 class="font-medium">{{ auth()->user()->name }}</h4>
-            </div>
+            </a>
             {{-- Follow Suggestion --}}
             <section class="mt-4">
                 <h4 class="font-bold text-gray-700/95">Suggestions for you</h4>
