@@ -104,7 +104,8 @@
         @if (session('error'))
             <div id="error-message"
                 class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded absolute left-1/2 transform -translate-x-1/2 transition-opacity duration-500 ease-in-out">
-                <span class="block sm:inline">{{ session('error') }}</span>
+                <span class="block sm:inline">{{ session('error') }}</span> <a href="{{ route('verification.notice') }}"
+                    class="font-bold">Click Here</a>
             </div>
         @endif
     </main>
