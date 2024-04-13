@@ -185,10 +185,10 @@
     border-radius: 50%;
 }
 
-.btn {
+/* .btn {
     width: 105px;
     margin-left: 20px;
-}
+} */
 
 .tableContainer {
     width: 80%;
@@ -317,3 +317,4 @@
         padding-top: 20px; /* Adjust padding for smaller screens */
     }
 }
+

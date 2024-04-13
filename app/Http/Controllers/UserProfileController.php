@@ -229,19 +229,6 @@ class UserProfileController extends Controller
             return redirect()->back();
         }
 
-         /**
-         * Display the profile of a follower.
-         */
-        // public function showFollowerProfile($followerId)
-        // {
-        //     $follower = User::findOrFail($followerId);
-
-        //     if (!$follower) {
-        //         return response()->json(['error' => 'Follower not found'], 404);
-        //     }
-        //     return redirect()->route('profile.show', ['id' => $follower->id]);
-        // }
-
         public function showFollowerProfile($id)
         {
             $follower = User::findOrFail($id);
