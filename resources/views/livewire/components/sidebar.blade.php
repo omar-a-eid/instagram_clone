@@ -294,7 +294,7 @@
 
     <div x-show="drawer" x-cloak x-transition.origin.left
         @click.outside="drawer=false;showSearch=false;showNotifications=false"
-        class="fixed inset-y-0 left-[70px] w-95 px-4 overflow-y-scroll overflow-x-hidden shadow bg-white border rounded-r-2xl z-[50]">
+        class="fixed inset-y-0 left-[70px] w-96 px-4 overflow-y-scroll overflow-x-hidden shadow bg-white border rounded-r-2xl z-[50]">
 
         <template x-if="showSearch">
             <div x-cloak class="h-full">
@@ -309,8 +309,8 @@
                         <ul class="space-y-2 overflow-x-hidden">
                             @foreach ($results as $key => $user)
                                 <li>
-                                    {{-- <a href="{{ route('profile.home', $user->username) }} --}}
-                                    <a href="/" class="flex gap-2 truncate items-center">
+                                    <a href="{{ route('profile.show', ['id' => $user->id]) }}"
+                                        class="flex gap-2 truncate items-center">
                                         <x-avatar wire:ignore class="w-9 h-9 mb-auto"
                                             src="https://source.unsplash.com/500x500?face-{{ $key }}" />
                                         <div class="flex flex-col">
