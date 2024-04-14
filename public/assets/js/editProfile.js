@@ -1,10 +1,15 @@
 // on clicking on gender
-function showGenderModal() {
-    var myModal = new bootstrap.Modal(document.getElementById("genderModal"), {
-        keyboard: false,
-    });
-    myModal.show();
-}
+// function showGendermodal() {
+//     // var myModal = new bootstrap.Modal(document.getElementById("genderModal"), {
+//     //     keyboard: false,
+//     // });
+//     // myModal.show();
+// console.log("hi");
+//     var myModal = document.getElementById("genderModal")
+//     myModal.style.display = "block";
+//     var modal = document.getElementById('genderModal');
+//     modal.classList.remove('hidden');
+// }
 
 // Show Remove And Update Photo Modal
 $(document).ready(function () {
@@ -14,14 +19,35 @@ $(document).ready(function () {
 });
 
 
+// function saveGender(genderModal) {
+//     var selectedGender = document.querySelector('input[name="gender"]:checked').value;
+//     document.getElementById("genderButton").value = selectedGender;
+
+//     var myModal = document.getElementById("genderModal")
+//     myModal.style.display = "none";
+//     var modal = document.getElementById('genderModal');
+//     modal.classList.add('hidden');
+//     // console.log(genderModal)
+//     // genderModal.toggle();
+// }
+
+function showGendermodal() {
+    var modal = document.getElementById('genderModal');
+    modal.classList.remove('hidden');
+}
+
+function hideGenderModal() {
+    var modal = document.getElementById('genderModal');
+    modal.classList.add('hidden');
+}
+
 function saveGender() {
     var selectedGender = document.querySelector('input[name="gender"]:checked').value;
     document.getElementById("genderButton").value = selectedGender;
 
-    var myModal = document.getElementById("genderModal")
-    myModal.style.display = "none";
-
+    hideGenderModal();
 }
+
 
 
 function displaySelectedPhoto() {
