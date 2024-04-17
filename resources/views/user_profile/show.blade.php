@@ -176,12 +176,15 @@
                                                                     <button type="submit"
                                                                         class="btn btn-danger">Remove</button>
                                                                 </form>
+                                                            @elseif (auth()->user()->id == $follower->id)
+                                                                <span></span>
                                                             @else
                                                                 <form action="{{ route('follow', $follower->id) }}"
                                                                     method="POST">
                                                                     @csrf
                                                                     <button type="submit"
                                                                         class="btn btn-primary">Follow</button>
+                                                                    <span>{{ $user->id }}</span>
                                                                 </form>
                                                             @endif
                                                         @endauth
@@ -239,6 +242,8 @@
                                                                     <button type="submit"
                                                                         class="btn btn-danger btn-sm">Unfollow</button>
                                                                 </form>
+                                                            @elseif (auth()->user()->id == $followedUser->id)
+                                                                <span></span>
                                                             @else
                                                                 <form action="{{ route('follow', $follower->id) }}"
                                                                     method="POST">

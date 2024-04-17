@@ -315,23 +315,25 @@
                     @if ($results)
                         <ul class="space-y-2 overflow-x-hidden">
                             @foreach ($results as $key => $user)
-                                <li>
-                                    <a href="{{ route('profile.show', ['id' => $user->id]) }}"
-                                        class="flex gap-2 truncate items-center">
+                                @if (auth()->user()->id != $user->id)
+                                    <li>
+                                        <a href="{{ route('profile.show', ['id' => $user->id]) }}"
+                                            class="flex gap-2 truncate items-center">
 
-                                        @if (!$user->image)
-                                            <img src="{{ asset('assets/images/avatar.jpeg') }}" alt="Avatar"
-                                                id="profileImage" class="w-9 h-9 mb-auto rounded-full">
-                                        @else
-                                            <img class="w-9 h-9 mb-auto rounded-full"
-                                                src="{{ asset('storage/' . $user->image) }}" />
-                                        @endif
+                                            @if (!$user->image)
+                                                <img src="{{ asset('assets/images/avatar.jpeg') }}" alt="Avatar"
+                                                    id="profileImage" class="w-9 h-9 mb-auto rounded-full">
+                                            @else
+                                                <img class="w-9 h-9 mb-auto rounded-full"
+                                                    src="{{ asset('storage/' . $user->image) }}" />
+                                            @endif
 
-                                        <div class="flex flex-col">
-                                            <span class="font-bold text-sm">{{ $user->username }}</span>
-                                        </div>
-                                    </a>
-                                </li>
+                                            <div class="flex flex-col">
+                                                <span class="font-bold text-sm">{{ $user->username }}</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                @endif
                             @endforeach
                         </ul>
                     @else
